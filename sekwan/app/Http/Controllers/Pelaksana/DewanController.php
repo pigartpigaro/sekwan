@@ -14,36 +14,38 @@ class DewanController extends Controller
     }
 
     public function store(Request $request){
-        
+
         $data=Dewan::create([
             'nama'=> $request->nama,
-            'jabatan'=> $request->jabatan,
             'nik'=> $request->nik,
+            'jns_kelamin'=> $request->jns_kelamin,
+            'alamat'=> $request->alamat,
+            'jabatan'=> $request->jabatan,
             'komisi'=> $request->komisi,
-            'status'=> $request->status,    
         ]);
-       
+
         return response()->json($data);
     }
     public function update(Request $request){
         $data=Dewan::find($request->id);
         if(!$data){
             return response()->json('NotValid',500);
-        }        
+        }
 
         $data->update([
             'nama'=> $request->nama,
-            'jabatan'=> $request->jabatan,
             'nik'=> $request->nik,
+            'jns_kelamin'=> $request->jns_kelamin,
+            'alamat'=> $request->alamat,
+            'jabatan'=> $request->jabatan,
             'komisi'=> $request->komisi,
-            'status'=> $request->status,
         ]);
 
         return response()->json('Success');
     }
 
     public function delete(Request $request){
-        
+
         $data=Dewan::find($request->id);
         if(!$data){
             return response()->json('NotValid',500);
@@ -54,9 +56,9 @@ class DewanController extends Controller
     }
     public function status($id){
         $data = Dewan::where('id',$id)->first();
- 
+
         $aktif = $data->status;
- 
+
         if($aktif == 1){
              Dewan::where('id',$id)->update([
                 'status'=>0
@@ -67,12 +69,12 @@ class DewanController extends Controller
             ]);
         }
         return response()->json('Success','Status change successfully');
-        
+
         // $dewan = Dewan::find($id);
         // $dewan->status = $id->status;
         // $dewan->save();
-  
+
         // return response()->json('Success','Status change successfully');
-    
+
         }
     }
