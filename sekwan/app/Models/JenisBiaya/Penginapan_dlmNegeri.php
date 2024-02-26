@@ -2,24 +2,24 @@
 
 namespace App\Models\JenisBiaya;
 
+use App\Models\Master\Golongan;
 use App\Models\Master\Provinsi;
-use App\Models\Master\Tingkatan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class UH_PerdinLuarKota extends Model
+class Penginapan_dlmNegeri extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
-    protected $table = 'uangharians';
+    protected $table = 'penginapan_dlmnegeris';
     protected $dates = ['deleted_at'];
 
     public function provinsi(){
         return $this -> hasMany(Provinsi::class);
     }
-    public function tingakatan(){
-        return $this -> hasMany(Tingkatan::class);
+    public function golongan(){
+        return $this -> hasMany(Golongan::class);
     }
 }

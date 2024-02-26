@@ -3,18 +3,20 @@
 namespace App\Http\Controllers\JenisBiaya;
 
 use App\Http\Controllers\Controller;
-use App\Models\JenisBiaya\UH_PerdinLuarKota;
-use App\Models\Master\Kota_Kab;
+use App\Models\JenisBiaya\Penginapan_dlmNegeri;
+use App\Models\Master\Golongan;
 use App\Models\Master\Provinsi;
 use App\Models\Master\Satuan;
-use App\Models\Master\Tingkatan;
 use Illuminate\Http\Request;
 
-class UH_PerdinLuarKotaController extends Controller
+class Penginapan_dlmNegeriController extends Controller
 {
-    public function index(){
-        $data=UH_PerdinLuarKota::all();
+    public function index()
+    {
+        $data=Penginapan_dlmNegeri::all();
+
         return response()->json($data);
+
     }
 
     public function store(Request $request){
@@ -22,40 +24,40 @@ class UH_PerdinLuarKotaController extends Controller
         if(!$provinsi){
             return response()->json('NotValid',500);
         }
-        $tingkat = Tingkatan::where('id','=',$request->id_tingkatan)->first();
-        if(!$tingkat){
+        $gol = Golongan::where('id','=',$request->id_golongan)->first();
+        if(!$gol){
             return response()->json('NotValid',500);
         }
 
-        $data=UH_PerdinLuarKota::create([
+        $data=Penginapan_dlmNegeri::create([
+            'nama'=> $request->nama,
             'id_provinsi'=> $request->id_provinsi,
             'satuan'=> $request->satuan,
-            'id_tingkatan'=> $request->id_tingkatan,
-            'biaya' => $request->biaya,
-            'nama' =>$request->nama,
+            'id_golongan'=> $request->id_golongan,
+            'biaya'=> $request->biaya,
         ]);
 
         return response()->json($data);
     }
     public function update(Request $request){
 
-        $data = UH_PerdinLuarKota::find($request->id);
+        $data = Penginapan_dlmNegeri::find($request->id);
         if(!$data){
             return response()->json('NotValid',500);
         }
         $data->update([
+            'nama'=> $request->nama,
             'id_provinsi'=> $request->id_provinsi,
             'satuan'=> $request->satuan,
-            'id_tingkatan'=> $request->id_tingkatan,
+            'id_golongan'=> $request->id_golongan,
             'biaya'=> $request->biaya,
-            'nama' =>$request->nama,
         ]);
 
         return response()->json('Success');
     }
 
     public function delete(Request $request){
-        $data=UH_PerdinLuarKota::find($request->id);
+        $data=Penginapan_dlmNegeri::find($request->id);
         if(!$data){
             return response()->json('NotValid',500);
         }
@@ -63,5 +65,4 @@ class UH_PerdinLuarKotaController extends Controller
 
         return response()->json('Success');
     }
-
 }

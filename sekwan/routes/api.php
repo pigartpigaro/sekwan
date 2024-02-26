@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JenisBiaya\Penginapan_dlmNegeriController;
 use App\Http\Controllers\JenisBiaya\UH_PerdinLuarKotaController;
 use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Master\GolonganController;
@@ -69,6 +70,12 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/updategol', [GolonganController::class, 'update']);
     Route::post('/deletegol', [GolonganController::class, 'delete']);
 
+    // route rekening 050
+    Route::get('/indexkepmen', [Kepmen050Controller::class, 'index']);
+    Route::post('/storekepmen', [Kepmen050Controller::class, 'store']);
+    Route::post('/updatekepmen', [Kepmen050Controller::class, 'update']);
+    Route::post('/deletekepmen', [Kepmen050Controller::class, 'delete']);
+
 
     // route Dewan
     Route::get('/indexdewan', [DewanController::class, 'index']);
@@ -83,9 +90,11 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/storeuangharian', [UH_PerdinLuarKotaController::class, 'store']);
     Route::post('/updateuangharian', [UH_PerdinLuarKotaController::class, 'update']);
     Route::post('/deleteuangharian', [UH_PerdinLuarKotaController::class, 'delete']);
+
+    // route UangHarian
+    Route::get('/indexpenginapan', [Penginapan_dlmNegeriController::class, 'index']);
+    Route::post('/storepenginapan', [Penginapan_dlmNegeriController::class, 'store']);
+    Route::post('/updatepenginapan', [Penginapan_dlmNegeriController::class, 'update']);
+    Route::post('/deletepenginapan', [Penginapan_dlmNegeriController::class, 'delete']);
 });
-// route rekening 050
-Route::get('/indexkepmen', [Kepmen050Controller::class, 'index']);
-Route::post('/storekepmen', [Kepmen050Controller::class, 'store']);
-Route::post('/updatekepmen', [Kepmen050Controller::class, 'update']);
-Route::post('/deletekepmen', [Kepmen050Controller::class, 'delete']);
+
