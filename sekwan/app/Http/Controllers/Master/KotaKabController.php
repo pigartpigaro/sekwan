@@ -16,7 +16,7 @@ class KotaKabController extends Controller
     public function store(Request $request){
         $data=Kota_Kab::create([
             'name'=> $request->name,
-             
+
         ]);
 
         return response()->json($data);
@@ -25,17 +25,17 @@ class KotaKabController extends Controller
         $data=Kota_Kab::find($request->id);
         if(!$data){
             return response()->json('NotValid',500);
-        }        
+        }
         $data->update([
             'name'=> $request->name,
-            
+
         ]);
 
         return response()->json('Success');
     }
 
     public function delete(Request $request){
-        
+
         $data=Kota_Kab::find($request->id);
         if(!$data){
             return response()->json('NotValid',500);

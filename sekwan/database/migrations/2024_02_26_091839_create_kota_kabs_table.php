@@ -4,14 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateKotaKabsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('tingkatans', function (Blueprint $table) {
+        Schema::create('kota_kabs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -19,9 +21,11 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('tingkatans');
+        Schema::dropIfExists('kota_kabs');
     }
-};
+}
