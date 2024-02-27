@@ -4,17 +4,30 @@ namespace App\Http\Controllers\Pelaksana;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pelaksana\Dewan;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class DewanController extends Controller
 {
     public function index(){
-        $data=Dewan::get();
+        // $data=Dewan::get();
+        // $data = DB::table('dewans')->select('id','nama','nik', 'komisi')->get();
+        $data = DB::table('dewans')->whereIn('status', [0, 1])->get();
         return response()->json($data);
     }
 
     public function store(Request $request){
 
+        $validator = Validator::make($request->all(), [
+            'nik'  => 'required|unique:dewans',
+        ]);
+
+        //if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
         $data=Dewan::create([
             'nama'=> $request->nama,
             'nik'=> $request->nik,

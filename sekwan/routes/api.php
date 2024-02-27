@@ -50,13 +50,6 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/deletekab', [KotaKabController::class, 'delete']);
 
 
-    // route satuan
-    Route::get('/indexsatuan', [SatuanController::class, 'index']);
-    Route::post('/storesatuan', [SatuanController::class, 'store']);
-    Route::post('/updatesatuan', [SatuanController::class, 'update']);
-    Route::post('/deletesatuan', [SatuanController::class, 'delete']);
-
-
     // route Tingkat
     Route::get('/indextingkat', [TingkatanController::class, 'index']);
     Route::post('/storetingkat', [TingkatanController::class, 'store']);
