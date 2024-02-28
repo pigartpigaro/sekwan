@@ -45,7 +45,7 @@ class DewanController extends Controller
             'komisi'=> $request->komisi,
         ]);
 
-        return response()->json(['message' => 'Sukses di Simpan', 'data' =>$data], 200);
+        return response()->json(['message' => 'Berhasil di Simpan', 'data' =>$data], 200);
     }
     public function update(Request $request){
         $data=Dewan::find($request->id);
@@ -62,7 +62,7 @@ class DewanController extends Controller
             'komisi'=> $request->komisi,
         ]);
 
-        return response()->json('Sukses update');
+        return response()->json('Sukses Updated');
     }
 
     public function delete(Request $request){
@@ -89,7 +89,7 @@ class DewanController extends Controller
                 'status'=>1
             ]);
         }
-        return response()->json('Success','Status change successfully');
+        return response()->json('Success','Status Berhasil Ganti');
 
         // $dewan = Dewan::find($id);
         // $dewan->status = $id->status;
