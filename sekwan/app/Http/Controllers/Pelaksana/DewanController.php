@@ -11,10 +11,18 @@ use Illuminate\Support\Facades\DB;
 
 class DewanController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         // $data=Dewan::get();
         // $data = DB::table('dewans')->select('id','nama','nik', 'komisi')->get();
-        $data = DB::table('dewans')->whereIn('status', [0, 1])->get();
+        // $data = DB::table('dewans')->whereIn('status', [0, 1])->get();
+
+        $data = Dewan::whereIn('status', [0, 1])
+            ->where(function($query)
+            {
+            $query->where('nama', 'LIKE', '%' . request('q') . '%')
+            ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
+            })
+            ->paginate(10);
         return response()->json($data);
     }
 
@@ -37,7 +45,7 @@ class DewanController extends Controller
             'komisi'=> $request->komisi,
         ]);
 
-        return response()->json($data);
+        return response()->json(['message' => 'Sukses di Simpan', 'data' =>$data], 200);
     }
     public function update(Request $request){
         $data=Dewan::find($request->id);
@@ -54,7 +62,7 @@ class DewanController extends Controller
             'komisi'=> $request->komisi,
         ]);
 
-        return response()->json('Success');
+        return response()->json('Sukses update');
     }
 
     public function delete(Request $request){
