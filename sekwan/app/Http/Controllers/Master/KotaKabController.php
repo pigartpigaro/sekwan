@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 class KotaKabController extends Controller
 {
     public function index(){
-        $data=Kota_Kab::get();
+        $data=Kota_Kab::latest()
+        ->where('name', request('q'))
+        ->paginate(10);
         return response()->json($data);
     }
 

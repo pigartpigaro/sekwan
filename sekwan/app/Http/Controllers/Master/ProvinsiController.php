@@ -9,14 +9,16 @@ use App\Models\Master\Provinsi;
 class ProvinsiController extends Controller
 {
     public function index(){
-        $data=Provinsi::get();
+        $data=Provinsi::latest()
+        ->where('name', request('q'))
+        ->paginate(10);
         return response()->json($data);
     }
 
     public function storeprov(Request $request){
         $data=Provinsi::create([
             'name'=> $request->name,
-             
+
         ]);
 
         return response()->json($data);
@@ -25,17 +27,17 @@ class ProvinsiController extends Controller
         $data=Provinsi::find($request->id);
         if(!$data){
             return response()->json('NotValid',500);
-        }        
+        }
         $data->update([
             'name'=> $request->name,
-            
+
         ]);
 
         return response()->json('Success');
     }
 
     public function deleteprov(Request $request){
-        
+
         $data=Provinsi::find($request->id);
         if(!$data){
             return response()->json('NotValid',500);

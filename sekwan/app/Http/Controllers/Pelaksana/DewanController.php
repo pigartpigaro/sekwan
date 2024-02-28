@@ -16,7 +16,7 @@ class DewanController extends Controller
         // $data = DB::table('dewans')->select('id','nama','nik', 'komisi')->get();
         // $data = DB::table('dewans')->whereIn('status', [0, 1])->get();
 
-        $data = Dewan::whereIn('status', [0, 1])
+        $data = Dewan::whereIn('status', request(['status']))
             ->where(function($query)
             {
             $query->where('nama', 'LIKE', '%' . request('q') . '%')

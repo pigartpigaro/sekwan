@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 class Kepmen050Controller extends Controller
 {
     public function index(){
-        $data=Kepmen050::get();
+        $data=Kepmen050::latest()
+        ->where('uaraian', 'subrincian_objek', request('q'))
+        ->paginate(10);
         return response()->json($data);
     }
     public function store(Request $request){
@@ -28,7 +30,7 @@ class Kepmen050Controller extends Controller
         $data=Kepmen050::find($request->id);
         if(!$data){
             return response()->json('NotValid',500);
-        }        
+        }
         $data->update([
             'akun' => $request->akun,
             'kelompok' => $request->kelompok,
@@ -43,7 +45,7 @@ class Kepmen050Controller extends Controller
     }
 
     public function delete(Request $request){
-        
+
         $data=Kepmen050::find($request->id);
         if(!$data){
             return response()->json('NotValid',500);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Login;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -32,7 +33,7 @@ class LoginController extends Controller
         $credentials = $request->only('username', 'password');
 
         //auth failed
-        if (!$token = FacadesJWTAuth::attempt($credentials)) {
+        if (!$token = FacadesJWTAuth::attempt($credentials, ['exp' => Carbon::now()->addDays(7)->timestamp])) {
             return response()->json([
                 'success' => false,
                 'message' => 'Email atau Password Anda salah'
