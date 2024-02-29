@@ -24,7 +24,7 @@ class Kepmen050Controller extends Controller
             'subrincian_objek' => $request->subrincian_objek,
             'uraian' => $request->uraian,
         ]);
-        return response()->json($data);
+        return response()->json(['message' => 'Berhasil di Simpan', 'data' =>$data], 200);
     }
     public function update(Request $request){
         $data=Kepmen050::find($request->id);

@@ -37,7 +37,7 @@ class Penginapan_dlmNegeriController extends Controller
             'biaya'=> $request->biaya,
         ]);
 
-        return response()->json($data);
+        return response()->json(['message' => 'Berhasil di Simpan', 'data' =>$data], 200);
     }
     public function update(Request $request){
 

@@ -21,7 +21,7 @@ class KotaKabController extends Controller
 
         ]);
 
-        return response()->json($data);
+        return response()->json(['message' => 'Berhasil di Simpan', 'data' =>$data], 200);
     }
     public function update(Request $request){
         $data=Kota_Kab::find($request->id);
