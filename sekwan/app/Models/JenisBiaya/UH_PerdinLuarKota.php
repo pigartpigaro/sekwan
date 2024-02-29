@@ -17,9 +17,9 @@ class UH_PerdinLuarKota extends Model
     protected $dates = ['deleted_at'];
 
     public function provinsi(){
-        return $this -> hasMany(Provinsi::class);
+        return $this -> belongsTo(Provinsi::class);
     }
     public function tingakatan(){
-        return $this -> hasMany(Tingkatan::class);
+        return $this -> belongsTo(Tingkatan::class);
     }
 }

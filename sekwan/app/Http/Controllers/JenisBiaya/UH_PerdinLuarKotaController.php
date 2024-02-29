@@ -4,17 +4,18 @@ namespace App\Http\Controllers\JenisBiaya;
 
 use App\Http\Controllers\Controller;
 use App\Models\JenisBiaya\UH_PerdinLuarKota;
-use App\Models\Master\Kota_Kab;
 use App\Models\Master\Provinsi;
-use App\Models\Master\Satuan;
 use App\Models\Master\Tingkatan;
 use Illuminate\Http\Request;
 
 class UH_PerdinLuarKotaController extends Controller
 {
     public function index(){
-        $data=UH_PerdinLuarKota::all();
-        return response()->json($data);
+        $data=UH_PerdinLuarKota::latest()
+        ->with(['provinsi', 'tingkatan'])
+        ->paginate(10);
+
+        return response()->json(['data' => $data]);
     }
 
     public function store(Request $request){

@@ -17,9 +17,9 @@ class Penginapan_dlmNegeri extends Model
     protected $dates = ['deleted_at'];
 
     public function provinsi(){
-        return $this -> hasMany(Provinsi::class);
+        return $this -> belongsTo(Provinsi::class);
     }
     public function golongan(){
-        return $this -> hasMany(Golongan::class);
+        return $this -> belongsTo(Golongan::class);
     }
 }

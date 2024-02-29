@@ -22,9 +22,9 @@ class Provinsi extends Model
         return $this->hasMany(Golongan::class);
     }
     public function uh (){
-        return $this->belongsTo(UH_PerdinLuarKota::class);
+        return $this->hasMany(UH_PerdinLuarKota::class);
     }
     public function penginapan (){
-        return $this->belongsTo(Penginapan_dlmNegeri::class);
+        return $this->hasMany(Penginapan_dlmNegeri::class);
     }
 }

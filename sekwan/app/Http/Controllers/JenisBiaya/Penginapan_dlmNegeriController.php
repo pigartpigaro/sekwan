@@ -6,16 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\JenisBiaya\Penginapan_dlmNegeri;
 use App\Models\Master\Golongan;
 use App\Models\Master\Provinsi;
-use App\Models\Master\Satuan;
 use Illuminate\Http\Request;
 
 class Penginapan_dlmNegeriController extends Controller
 {
     public function index()
     {
-        $data=Penginapan_dlmNegeri::all();
+        $data=Penginapan_dlmNegeri::latest()
+        ->with(['provinsi', 'golongan'])
+        ->paginate(10);
 
-        return response()->json($data);
+        return response()->json(['data' => $data]);
 
     }
 
