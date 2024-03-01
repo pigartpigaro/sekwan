@@ -15,8 +15,8 @@ class DewanController extends Controller
         // $data=Dewan::get();
         // $data = DB::table('dewans')->select('id','nama','nik', 'komisi')->get();
         // $data = DB::table('dewans')->whereIn('status', [0, 1])->get();
-
-        $data = Dewan::whereIn('status', request(['status']))
+        $status = ['0,1'];
+        $data = Dewan::whereIn('status', $status)
             ->where(function($query)
             {
             $query->where('nama', 'LIKE', '%' . request('q') . '%')
@@ -34,7 +34,7 @@ class DewanController extends Controller
 
         //if validation fails
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json(['message' => 'NIK Sudah Tersedia', 'data' =>$validator], 422);
         }
         $data=Dewan::create([
             'nama'=> $request->nama,
