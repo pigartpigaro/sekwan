@@ -11,7 +11,12 @@ class Dewan extends Model
     protected $guarded = ['id'];
     protected $table = 'dewans';
 
-
+    public function jabatan (){
+        return $this->belongsTo(Jabatan::class);
+    }
+    public function komisi (){
+        return $this->belongsTo(Komisi::class);
+    }
     // const STATUS_ACTIVE    = 1;
     // const STATUS_SUSPENDED = 2;
     // const STATUS_INACTIVE  = 3;
