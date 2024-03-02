@@ -70,7 +70,7 @@ class DewanController extends Controller
             'alamat'       => $request->alamat,
             'id_jabatan'   => $request->id_jabatan,
             'id_komisi'    => $request->id_komisi,
-            'id_pegawai'   => $request->id_pegawai,
+            'flag_pegawai' => $request->flag_pegawai,
             'status'       => $request->status
         ]);
 
