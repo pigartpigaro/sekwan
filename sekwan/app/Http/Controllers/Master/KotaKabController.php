@@ -11,7 +11,7 @@ class KotaKabController extends Controller
     public function index(){
         $data=Kota_Kab::latest()
         ->where('name', request('q'))
-        ->paginate('per_page');
+        ->paginate(request('per_page'));
         return response()->json($data);
     }
 

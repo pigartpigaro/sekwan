@@ -12,7 +12,7 @@ class JabatanController extends Controller
     public function index(){
         $data=Jabatan::latest()
         ->where('jenis', request('q'))
-        ->paginate('per_page');
+        ->paginate(request('per_page'));
         return response()->json($data);
     }
 

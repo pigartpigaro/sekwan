@@ -23,7 +23,7 @@ class KomisiController extends Controller
         })->where(function ($query) {
             $query->where('komisi', 'LIKE', '%' . request('q') . '%');
         })
-        ->paginate('per_page');
+        ->paginate(request('per_page'));
         return response()->json($data);
     }
 

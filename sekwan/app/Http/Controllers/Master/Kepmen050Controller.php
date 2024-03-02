@@ -11,7 +11,7 @@ class Kepmen050Controller extends Controller
     public function index(){
         $data=Kepmen050::latest()
         ->where('uaraian', 'subrincian_objek', request('q'))
-        ->paginate('per_page');
+        ->paginate(request('per_page'));
         return response()->json($data);
     }
     public function store(Request $request){

@@ -40,7 +40,8 @@ class DewanController extends Controller
                 $query->where('nama', 'LIKE', '%' . request('q') . '%')
                     ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
             })
-            ->paginate('per_page');
+            // ->with(['jabatans', 'komisis'])
+            ->paginate(request('per_page'));
         return response()->json($data);
     }
 
@@ -90,7 +91,7 @@ class DewanController extends Controller
             'alamat'      => $request->alamat,
             'id_jabatan'  => $request->id_jabatan,
             'id_komisi'   => $request->id_komisi,
-            'id_pegawai'  => $request->id_pegawai,
+            'flag_pegawai' => $request->flag_pegawai,
             'status'      => $request->status,
         ]);
 
