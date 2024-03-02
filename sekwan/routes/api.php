@@ -10,6 +10,8 @@ use App\Http\Controllers\Master\ProvinsiController;
 use App\Http\Controllers\Master\SatuanController;
 use App\Http\Controllers\Master\TingkatanController;
 use App\Http\Controllers\Pelaksana\DewanController;
+use App\Http\Controllers\Pelaksana\JabatanController;
+use App\Http\Controllers\Pelaksana\KomisiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -76,6 +78,20 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/updatedewan', [DewanController::class, 'update']);
     Route::post('/deletedewan', [DewanController::class, 'delete']);
     Route::post('/statusdewan', [DewanController::class, 'status']);
+    Route::post('/pegawai', [DewanController::class, 'pegwai']);
+
+    // route Jabata
+    Route::get('/indexjabatan', [JabatanController::class, 'index']);
+    Route::post('/storejabatan', [JabatanController::class, 'store']);
+    Route::post('/updatejabatan', [JabatanController::class, 'update']);
+    Route::post('/deletejabatan', [JabatanController::class, 'delete']);
+
+    // route Komisi
+    Route::get('/indexkomisi', [KomisiController::class, 'index']);
+    Route::post('/storekomisi', [KomisiController::class, 'store']);
+    Route::post('/updatekomisi', [KomisiController::class, 'update']);
+    Route::post('/deletekomisi', [KomisiController::class, 'delete']);
+    Route::post('/status/{id}', [KomisiController::class, 'status']);
 
 
     // route UangHarian

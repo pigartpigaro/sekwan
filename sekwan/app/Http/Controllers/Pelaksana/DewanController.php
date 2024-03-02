@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Pelaksana;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pelaksana\Dewan;
+use App\Models\Pelaksana\Jabatan;
+use App\Models\Pelaksana\Komisi;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +40,7 @@ class DewanController extends Controller
                 $query->where('nama', 'LIKE', '%' . request('q') . '%')
                     ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
             })
-            ->paginate(10);
+            ->paginate('per_page');
         return response()->json($data);
     }
 
@@ -52,13 +55,23 @@ class DewanController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => 'NIK Sudah Tersedia', 'data' => $validator], 422);
         }
+        $jabatan = Jabatan::where('id','=',$request->id_jabatan)->first();
+        if(!$jabatan){
+            return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
+        }
+        $komisi = Komisi::where('id','=',$request->id_komisi)->first();
+        if(!$komisi){
+            return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
+        }
         $data = Dewan::create([
-            'nama' => $request->nama,
-            'nik' => $request->nik,
-            'jns_kelamin' => $request->jns_kelamin,
-            'alamat' => $request->alamat,
-            'jabatan' => $request->jabatan,
-            'komisi' => $request->komisi,
+            'nama'         => $request->nama,
+            'nik'          => $request->nik,
+            'jns_kelamin'  => $request->jns_kelamin,
+            'alamat'       => $request->alamat,
+            'id_jabatan'   => $request->id_jabatan,
+            'id_komisi'    => $request->id_komisi,
+            'id_pegawai'   => $request->id_pegawai,
+            'status'       => $request->status
         ]);
 
         return response()->json(['message' => 'Berhasil di Simpan', 'data' => $data], 200);
@@ -71,27 +84,40 @@ class DewanController extends Controller
         }
 
         $data->update([
-            'nama' => $request->nama,
-            'nik' => $request->nik,
+            'nama'        => $request->nama,
+            'nik'         => $request->nik,
             'jns_kelamin' => $request->jns_kelamin,
-            'alamat' => $request->alamat,
-            'jabatan' => $request->jabatan,
-            'komisi' => $request->komisi,
+            'alamat'      => $request->alamat,
+            'id_jabatan'  => $request->id_jabatan,
+            'id_komisi'   => $request->id_komisi,
+            'id_pegawai'  => $request->id_pegawai,
+            'status'      => $request->status,
         ]);
 
-        return response()->json('Sukses Updated');
+        return new JsonResponse(['message' => 'Berhasil di Update', 'data' => $data], 200);
     }
 
     public function delete(Request $request)
     {
 
-        $data = Dewan::find($request->id);
-        if (!$data) {
-            return response()->json('NotValid', 500);
-        }
-        $data->delete();
+        // $data = Dewan::find($request->id);
+        // if (!$data) {
+        //     return response()->json('NotValid', 500);
+        // }
+        // $data->delete()->update([
+        //     'hide' => 1
+        // ]);
 
-        return response()->json('Success');
+        // return response()->json('Success');
+        $cari = Dewan::find($request->id);
+        if (!$cari) {
+            return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
+        }
+        $hapus = $cari->delete();
+        if (!$hapus) {
+            return new JsonResponse(['message' => 'gagal dihapus'], 501);
+        }
+        return new JsonResponse(['message' => 'berhasil dihapus'], 200);
     }
     public function status($id)
     {
@@ -101,7 +127,7 @@ class DewanController extends Controller
 
         if ($aktif == 1) {
             Dewan::where('id', $id)->update([
-                'status' => 0
+                'status' => ''
             ]);
         } else {
             Dewan::where('id', $id)->update([

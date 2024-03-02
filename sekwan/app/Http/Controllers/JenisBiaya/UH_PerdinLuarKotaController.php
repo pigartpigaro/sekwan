@@ -13,7 +13,7 @@ class UH_PerdinLuarKotaController extends Controller
     public function index(){
         $data=UH_PerdinLuarKota::latest()
         ->with(['provinsi', 'tingkatan'])
-        ->paginate(10);
+        ->paginate('per_page');
 
         return response()->json(['data' => $data]);
     }

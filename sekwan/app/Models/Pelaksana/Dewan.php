@@ -4,15 +4,13 @@ namespace App\Models\Pelaksana;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Dewan extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $guarded = ['id'];
     protected $table = 'dewans';
 
-    protected $dates = ['deleted_at'];
 
     // const STATUS_ACTIVE    = 1;
     // const STATUS_SUSPENDED = 2;

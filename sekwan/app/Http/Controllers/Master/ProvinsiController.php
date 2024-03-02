@@ -11,7 +11,7 @@ class ProvinsiController extends Controller
     public function index(){
         $data=Provinsi::latest()
         ->where('name', request('q'))
-        ->paginate(10);
+        ->paginate('per_page');
         return response()->json($data);
     }
 

@@ -14,7 +14,7 @@ class Penginapan_dlmNegeriController extends Controller
     {
         $data=Penginapan_dlmNegeri::latest()
         ->with(['provinsi', 'golongan'])
-        ->paginate(10);
+        ->paginate('per_page');
 
         return response()->json(['data' => $data]);
 
