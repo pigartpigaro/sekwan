@@ -11,7 +11,7 @@ class Flag_Pegawai extends Model
     protected $guarded = ['id'];
     protected $table = 'flag_pegawais';
 
-    public function dewan (){
-        return $this->hasMany(Dewan::class);
-    }
+    // public function dewan (){
+    //     return $this->hasMany(Dewan::class);
+    // }
 }

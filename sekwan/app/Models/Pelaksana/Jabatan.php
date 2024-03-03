@@ -11,7 +11,7 @@ class Jabatan extends Model
     protected $guarded = ['id'];
     protected $table = 'jabatans';
 
-    public function dewan (){
-        return $this->hasMany(Dewan::class);
-    }
+    // public function dewan (){
+    //     return $this->hasMany(Dewan::class);
+    // }
 }

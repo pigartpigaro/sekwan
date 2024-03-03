@@ -28,7 +28,8 @@ class DewanController extends Controller
         //     })
         //     ->paginate(10);
 
-        $data = Dewan::where(function ($sts) use ($status) {
+        $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai'])
+        ->where(function ($sts) use ($status) {
             if ($status !== 'all') {
                 if ($status === '0') {
                     $sts->where('status', '!=', '1');
@@ -37,12 +38,13 @@ class DewanController extends Controller
                 }
             }
         })
-            ->where(function ($query) {
-                $query->where('nama', 'LIKE', '%' . request('q') . '%')
-                    ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
-            })
-            // ->with(['jabatans', 'komisis'])
-            ->paginate(request('per_page'));
+        ->where(function ($query) {
+            $query->where('nama', 'LIKE', '%' . request('q') . '%')
+                ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
+        })
+        ->where('id_flag_pegawai', request('id_flag_pegawai'))
+        ->paginate(request('per_page'));
+
         return response()->json($data);
     }
 

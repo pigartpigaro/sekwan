@@ -10,7 +10,7 @@ class Komisi extends Model
     use HasFactory;
     protected $guarded = ['id'];
     protected $table = 'komisis';
-    public function dewan (){
-        return $this->hasMany(Dewan::class);
-    }
+    // public function dewan (){
+    //     return $this->hasMany(Dewan::class);
+    // }
 }
