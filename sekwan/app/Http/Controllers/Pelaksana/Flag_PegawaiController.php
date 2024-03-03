@@ -10,9 +10,19 @@ use Illuminate\Http\Request;
 class Flag_PegawaiController extends Controller
 {
     public function index(){
-        $data=Flag_Pegawai::first()
-        ->where('nama', 'LIKE', '%' . request('q') . '%')
-        ->paginate(request('per_page'));
+        $flag = request('flag') ?? '';
+        $data = Flag_Pegawai::where(function ($sts) use ($flag) {
+            if ($flag === '') {
+                $sts->where('flag', '!=', '1');
+            } else {
+                $sts->where('flag', '=', $flag);
+            }
+
+        })
+            ->where(function ($query) {
+                $query->where('nama', 'LIKE', '%' . request('q') . '%');
+            })
+            ->paginate(request('per_page'));
         return response()->json($data);
     }
 

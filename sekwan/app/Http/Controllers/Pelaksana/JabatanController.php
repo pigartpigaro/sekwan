@@ -10,9 +10,19 @@ use Illuminate\Http\Request;
 class JabatanController extends Controller
 {
     public function index(){
-        $data=Jabatan::first()
-        ->where('jenis', 'LIKE', '%' . request('q') . '%')
-        ->paginate(request('per_page'));
+        $flag = request('flag') ?? '';
+        $data = Jabatan::where(function ($sts) use ($flag) {
+            if ($flag === '') {
+                $sts->where('flag', '!=', '1');
+            } else {
+                $sts->where('flag', '=', $flag);
+            }
+
+        })
+            ->where(function ($query) {
+                $query->where('nama', 'LIKE', '%' . request('q') . '%');
+            })
+            ->paginate(request('per_page'));
         return response()->json($data);
     }
 

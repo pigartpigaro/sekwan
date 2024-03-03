@@ -10,11 +10,20 @@ use Illuminate\Http\Request;
 class KomisiController extends Controller
 {
     public function index(){
-        $data=Komisi::first()
-        ->where('komisi', 'LIKE', '%' . request('q') . '%')
-        ->paginate(request('per_page'));
-        return response()->json($data);
+        $flag = request('flag') ?? '';
+        $data = Komisi::where(function ($sts) use ($flag) {
+            if ($flag === '') {
+                $sts->where('flag', '!=', '1');
+            } else {
+                $sts->where('flag', '=', $flag);
+            }
 
+        })
+            ->where(function ($query) {
+                $query->where('nama', 'LIKE', '%' . request('q') . '%');
+            })
+            ->paginate(request('per_page'));
+        return response()->json($data);
     }
 
     public function store(Request $request){
