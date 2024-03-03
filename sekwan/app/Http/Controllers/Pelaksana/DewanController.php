@@ -120,7 +120,7 @@ class DewanController extends Controller
             return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
         }
         $hapus = $cari->flag;
-        if (!$hapus == 1) {
+        if ($hapus !== 1) {
         $hapus = $cari->update([
             'flag'  => 1,
         ]);
@@ -130,37 +130,38 @@ class DewanController extends Controller
         return new JsonResponse(['message' => 'berhasil dihapus'], 200);
         }
     }
-    public function status(Request $request, $id)
+    public function status(Request $request)
     {
-        $data = Dewan::where('id', $id)->first();
+        // $data = Dewan::where('id', $id)->first();
 
-        $aktif = $data->status;
+        // $aktif = $data->status;
 
-        if ($aktif == 1) {
-            Dewan::where('id', $id)->update([
-                'status' => 0
-            ]);
-        } else {
-            Dewan::where('id', $id)->update([
-                'status' => 1
-            ]);
-        }
-
-        return response()->json('Success', 'Status Berhasil Ganti');
-
-        // $dewan = Dewan::find($id);
-        // $dewan->status = $id->status;
-        // $dewan->save();
-
-        // return response()->json('Success','Status change successfully');
-
-        // $data = Dewan::find($request->id);
-        // $data->update(['status' => $request->status]);
-
-        // if ($data->wasChanged()) {
-        //     return new JsonResponse(['message' => 'Status sudah diganti', 'data' => $data], 201);
+        // if ($aktif == 1) {
+        //     Dewan::where('id', $id)->update([
+        //         'status' => 0
+        //     ]);
+        // } else {
+        //     Dewan::where('id', $id)->update([
+        //         'status' => 1
+        //     ]);
         // }
-        // return new JsonResponse(['message' => 'Status pegawai tetap'], 200);
+
+        // return response()->json('Success', 'Status Berhasil Ganti');
+
+        $cari = Dewan::find($request->id);
+        if (!$cari) {
+            return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
+        }
+        $ganti = $cari->status;
+        if ($ganti !== 1) {
+        $ganti = $cari->update([
+            'status'  => 1,
+        ]);
+        if (!$ganti) {
+            return new JsonResponse(['message' => 'gagal diupdate'], 501);
+        }
+        return new JsonResponse(['message' => 'berhasil diupdate'], 200);
+        }
 
     }
 }
