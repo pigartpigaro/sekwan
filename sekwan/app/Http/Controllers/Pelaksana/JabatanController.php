@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 class JabatanController extends Controller
 {
     public function index(){
-        $data=Jabatan::latest()
-        ->where('jenis', request('q'))
+        $data=Jabatan::first()
+        ->where('jenis', 'LIKE', '%' . request('q') . '%')
         ->paginate(request('per_page'));
         return response()->json($data);
     }

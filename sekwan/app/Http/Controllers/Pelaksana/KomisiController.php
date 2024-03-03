@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 class KomisiController extends Controller
 {
     public function index(){
-        $data=Komisi::latest()
-        ->where('komisi', request('q'))
+        $data=Komisi::first()
+        ->where('komisi', 'LIKE', '%' . request('q') . '%')
         ->paginate(request('per_page'));
         return response()->json($data);
 

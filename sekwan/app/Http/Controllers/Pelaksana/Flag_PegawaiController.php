@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 class Flag_PegawaiController extends Controller
 {
     public function index(){
-        $data=Flag_Pegawai::latest()
-        ->where('nama', request('q'))
+        $data=Flag_Pegawai::first()
+        ->where('nama', 'LIKE', '%' . request('q') . '%')
         ->paginate(request('per_page'));
         return response()->json($data);
     }
