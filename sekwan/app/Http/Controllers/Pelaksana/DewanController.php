@@ -58,12 +58,16 @@ class DewanController extends Controller
         }
         $jabatan = Jabatan::where('id','=',$request->id_jabatan)->first();
         if(!$jabatan){
-            return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
+            return new JsonResponse(['message' => 'data jabatan tidak ditemukan', 'data' => $jabatan], 501);
         }
         $komisi = Komisi::where('id','=',$request->id_komisi)->first();
         if(!$komisi){
-            return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
+            return new JsonResponse(['message' => 'data komisi tidak ditemukan', 'data' => $komisi], 501);
         }
+        // $pegawai = Flag_pegawai::where('id','=',$request->id_komisi)->first();
+        // if(!$komisi){
+        //     return new JsonResponse(['message' => 'data komisi tidak ditemukan', 'data' => $pegawai], 501);
+        // }
         $data = Dewan::create([
             'nama'         => $request->nama,
             'nik'          => $request->nik,
@@ -71,8 +75,8 @@ class DewanController extends Controller
             'alamat'       => $request->alamat,
             'id_jabatan'   => $request->id_jabatan,
             'id_komisi'    => $request->id_komisi,
-            'flag_pegawai' => $request->flag_pegawai,
-            'status'       => $request->status
+            'id_flag_pegawai' => $request->id_flag_pegawai,
+
         ]);
 
         return response()->json(['message' => 'Berhasil di Simpan', 'data' => $data], 200);
@@ -91,8 +95,8 @@ class DewanController extends Controller
             'alamat'      => $request->alamat,
             'id_jabatan'  => $request->id_jabatan,
             'id_komisi'   => $request->id_komisi,
-            'flag_pegawai' => $request->flag_pegawai,
-            'status'      => $request->status,
+            'id_flag_pegawai' => $request->id_flag_pegawai,
+            // 'status'      => $request->status,
         ]);
 
         return new JsonResponse(['message' => 'Berhasil di Update', 'data' => $data], 200);
@@ -114,13 +118,18 @@ class DewanController extends Controller
         if (!$cari) {
             return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
         }
-        $hapus = $cari->delete();
+        $hapus = $cari->flag;
+        if (!$hapus == 1) {
+        $hapus = $cari->update([
+            'flag'  => 1,
+        ]);
         if (!$hapus) {
             return new JsonResponse(['message' => 'gagal dihapus'], 501);
         }
         return new JsonResponse(['message' => 'berhasil dihapus'], 200);
+        }
     }
-    public function status($id)
+    public function status(Request $request, $id)
     {
         $data = Dewan::where('id', $id)->first();
 
@@ -135,6 +144,7 @@ class DewanController extends Controller
                 'status' => 1
             ]);
         }
+
         return response()->json('Success', 'Status Berhasil Ganti');
 
         // $dewan = Dewan::find($id);
@@ -142,6 +152,14 @@ class DewanController extends Controller
         // $dewan->save();
 
         // return response()->json('Success','Status change successfully');
+
+        // $data = Dewan::find($request->id);
+        // $data->update(['status' => $request->status]);
+
+        // if ($data->wasChanged()) {
+        //     return new JsonResponse(['message' => 'Status sudah diganti', 'data' => $data], 201);
+        // }
+        // return new JsonResponse(['message' => 'Status pegawai tetap'], 200);
 
     }
 }

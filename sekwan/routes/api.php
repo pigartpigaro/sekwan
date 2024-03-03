@@ -10,6 +10,7 @@ use App\Http\Controllers\Master\ProvinsiController;
 use App\Http\Controllers\Master\SatuanController;
 use App\Http\Controllers\Master\TingkatanController;
 use App\Http\Controllers\Pelaksana\DewanController;
+use App\Http\Controllers\Pelaksana\Flag_PegawaiController;
 use App\Http\Controllers\Pelaksana\JabatanController;
 use App\Http\Controllers\Pelaksana\KomisiController;
 use Illuminate\Http\Request;
@@ -80,7 +81,7 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/statusdewan', [DewanController::class, 'status']);
     Route::post('/pegawai', [DewanController::class, 'pegwai']);
 
-    // route Jabata
+    // route Jabatan
     Route::get('/indexjabatan', [JabatanController::class, 'index']);
     Route::post('/storejabatan', [JabatanController::class, 'store']);
     Route::post('/updatejabatan', [JabatanController::class, 'update']);
@@ -91,7 +92,12 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/storekomisi', [KomisiController::class, 'store']);
     Route::post('/updatekomisi', [KomisiController::class, 'update']);
     Route::post('/deletekomisi', [KomisiController::class, 'delete']);
-    Route::post('/status/{id}', [KomisiController::class, 'status']);
+
+    // route flagpegawai
+    Route::get('/indexflagpgw', [Flag_PegawaiController::class, 'index']);
+    Route::post('/storeflagpgw', [Flag_PegawaiController::class, 'store']);
+    Route::post('/updateflagpgw', [Flag_PegawaiController::class, 'update']);
+    Route::post('/deleteflagpgw', [Flag_PegawaiController::class, 'delete']);
 
 
     // route UangHarian

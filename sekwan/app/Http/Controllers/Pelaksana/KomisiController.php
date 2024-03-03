@@ -11,13 +11,13 @@ class KomisiController extends Controller
 {
     public function index(){
         // $data=Komisi::latest()
-        $status = request('status') ?? '';
+        $status = request('flag_pegawai') ?? '';
         $data = Komisi::where(function ($sts) use ($status) {
             if ($status !== 'all') {
                 if ($status === '') {
-                    $sts->where('status', '!=', '1');
+                    $sts->where('flag_pegawai', '!=', '1');
                 } else {
-                    $sts->where('status', '=', $status);
+                    $sts->where('flag_pegawai', '=', $status);
                 }
             }
         })->where(function ($query) {
@@ -30,7 +30,7 @@ class KomisiController extends Controller
     public function store(Request $request){
         $data=Komisi::create([
             'komisi'=> $request->komisi,
-            'flag_pegawai'=> $request->flag_pegawai,
+
         ]);
 
         return new JsonResponse(['message' => 'Berhasil di Simoan', 'data' => $data], 200);
@@ -42,31 +42,38 @@ class KomisiController extends Controller
         }
         $data->update([
             'komisi'=> $request->komisi,
-            'flag_pegawai'=> $request->flag_pegawai,
+
         ]);
 
         return new JsonResponse(['message' => 'Berhasil di Update', 'data' => $data], 200);
     }
 
-    public function delete(Request $request){
-
-        $data=Komisi::find($request->id);
-        if(!$data){
-            return response()->json('NotValid',500);
-        }
-        $data->delete();
-
-        return response()->json('Success');
-    }
-
-    public function status(Request $request)
+    public function delete(Request $request)
     {
-        $data = Komisi::find($request->id);
-        $data->update(['flag_pegawai' => $request->flag_pegawai]);
 
-        if ($data->wasChanged()) {
-            return new JsonResponse(['message' => 'Status sudah diganti', 'data' => $data], 201);
+        // $data = Komisi::find($request->id);
+        // if (!$data) {
+        //     return response()->json('NotValid', 500);
+        // }
+        // $data->delete()->update([
+        //     'hide' => 1
+        // ]);
+
+        // return response()->json('Success');
+        $cari = Komisi::find($request->id);
+        if (!$cari) {
+            return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
         }
-        return new JsonResponse(['message' => 'Status pegawai tetap'], 200);
+        $hapus = $cari->flag;
+        if (!$hapus == 1) {
+        $hapus = $cari->update([
+            'flag'  => 1,
+        ]);
+        if (!$hapus) {
+            return new JsonResponse(['message' => 'gagal dihapus'], 501);
+        }
+        return new JsonResponse(['message' => 'berhasil dihapus'], 200);
+        }
     }
+
 }
