@@ -11,7 +11,7 @@ class KomisiController extends Controller
 {
     public function index(){
         $data=Komisi::latest()
-        ->where('jenis', request('q'))
+        ->where('komisi', request('q'))
         ->paginate(request('per_page'));
         return response()->json($data);
 
@@ -55,7 +55,7 @@ class KomisiController extends Controller
             return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
         }
         $hapus = $cari->flag;
-        if (!$hapus == 1) {
+        if ($hapus !== 1) {
         $hapus = $cari->update([
             'flag'  => 1,
         ]);

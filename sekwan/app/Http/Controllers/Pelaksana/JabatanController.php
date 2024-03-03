@@ -53,7 +53,7 @@ class JabatanController extends Controller
             return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
         }
         $hapus = $cari->flag;
-        if (!$hapus == 1) {
+        if ($hapus !== 1) {
         $hapus = $cari->update([
             'flag'  => 1,
         ]);
