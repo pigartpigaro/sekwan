@@ -20,7 +20,7 @@ class JabatanController extends Controller
 
         })
             ->where(function ($query) {
-                $query->where('nama', 'LIKE', '%' . request('q') . '%');
+                $query->where('jenis', 'LIKE', '%' . request('q') . '%');
             })
             ->paginate(request('per_page'));
         return response()->json($data);
