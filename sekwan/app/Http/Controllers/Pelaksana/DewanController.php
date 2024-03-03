@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pelaksana;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pelaksana\Dewan;
+use App\Models\Pelaksana\Flag_Pegawai;
 use App\Models\Pelaksana\Jabatan;
 use App\Models\Pelaksana\Komisi;
 use Illuminate\Http\JsonResponse;
@@ -56,15 +57,15 @@ class DewanController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => 'NIK Sudah Tersedia', 'data' => $validator], 422);
         }
-        $jabatan = Jabatan::where('id','=',$request->id_jabatan)->first();
-        if(!$jabatan){
-            return new JsonResponse(['message' => 'data jabatan tidak ditemukan', 'data' => $jabatan], 501);
-        }
-        $komisi = Komisi::where('id','=',$request->id_komisi)->first();
-        if(!$komisi){
-            return new JsonResponse(['message' => 'data komisi tidak ditemukan', 'data' => $komisi], 501);
-        }
-        // $pegawai = Flag_pegawai::where('id','=',$request->id_komisi)->first();
+        // $jabatan = Jabatan::where('id','=',$request->id_jabatan)->first();
+        // if(!$jabatan){
+        //     return new JsonResponse(['message' => 'data jabatan tidak ditemukan', 'data' => $jabatan], 501);
+        // }
+        // $komisi = Komisi::where('id','=',$request->id_komisi)->first();
+        // if(!$komisi){
+        //     return new JsonResponse(['message' => 'data komisi tidak ditemukan', 'data' => $komisi], 501);
+        // }
+        // $pegawai = Flag_Pegawai::where('id','=',$request->id_komisi)->first();
         // if(!$komisi){
         //     return new JsonResponse(['message' => 'data komisi tidak ditemukan', 'data' => $pegawai], 501);
         // }
