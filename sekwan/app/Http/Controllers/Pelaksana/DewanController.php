@@ -29,7 +29,7 @@ class DewanController extends Controller
 
         $data = Dewan::where(function ($sts) use ($status) {
             if ($status !== 'all') {
-                if ($status === '') {
+                if ($status === '0') {
                     $sts->where('status', '!=', '1');
                 } else {
                     $sts->where('status', '=', $status);
@@ -96,7 +96,7 @@ class DewanController extends Controller
             'id_jabatan'  => $request->id_jabatan,
             'id_komisi'   => $request->id_komisi,
             'id_flag_pegawai' => $request->id_flag_pegawai,
-            // 'status'      => $request->status,
+
         ]);
 
         return new JsonResponse(['message' => 'Berhasil di Update', 'data' => $data], 200);
@@ -137,7 +137,7 @@ class DewanController extends Controller
 
         if ($aktif == 1) {
             Dewan::where('id', $id)->update([
-                'status' => ''
+                'status' => 0
             ]);
         } else {
             Dewan::where('id', $id)->update([

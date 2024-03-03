@@ -10,21 +10,11 @@ use Illuminate\Http\Request;
 class KomisiController extends Controller
 {
     public function index(){
-        // $data=Komisi::latest()
-        $status = request('flag_pegawai') ?? '';
-        $data = Komisi::where(function ($sts) use ($status) {
-            if ($status !== 'all') {
-                if ($status === '') {
-                    $sts->where('flag_pegawai', '!=', '1');
-                } else {
-                    $sts->where('flag_pegawai', '=', $status);
-                }
-            }
-        })->where(function ($query) {
-            $query->where('komisi', 'LIKE', '%' . request('q') . '%');
-        })
+        $data=Komisi::latest()
+        ->where('jenis', request('q'))
         ->paginate(request('per_page'));
         return response()->json($data);
+
     }
 
     public function store(Request $request){
