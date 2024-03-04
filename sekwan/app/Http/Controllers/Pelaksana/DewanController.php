@@ -7,6 +7,7 @@ use App\Models\Pelaksana\Dewan;
 use App\Models\Pelaksana\Flag_Pegawai;
 use App\Models\Pelaksana\Jabatan;
 use App\Models\Pelaksana\Komisi;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -27,18 +28,24 @@ class DewanController extends Controller
         //             ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
         //     })
         //     ->paginate(10);
-        $status = request('status') ?? '';
+
+        // manggil status
+        $status = request('flag') ?? '';
         $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai'])
-        // ->whereHas('flag_pegawai', request('id_flag_pegawai'))
         ->where(function ($sts) use ($status) {
-            if ($status !== 'all') {
-                if ($status === '0') {
-                    $sts->where('status', '!=', '1');
+
+                if ($status === '') {
+                    $sts->where('flag', '!=', '1');
                 } else {
-                    $sts->where('status', '=', $status);
+                    $sts->where('flag', '=', $status);
                 }
-            }
+
         })
+
+    //     $data = Dewan::leftJoin('jabatans', 'dewans.id', '=', 'jabatans.id')
+    //         ->leftJoin('komisis','dewans.id','=','komisis.id')
+    //  ->get();
+
 
         ->where(function ($query) {
             $query->where('nama', 'LIKE', '%' . request('q') . '%')
