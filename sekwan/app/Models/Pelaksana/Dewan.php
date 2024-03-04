@@ -15,13 +15,13 @@ class Dewan extends Model
     protected $table = 'dewans';
 
     public function jabatan (){
-        return $this->belongsTo(Jabatan::class, 'id');
+        return $this->belongsTo(Jabatan::class,'id_jabatan', 'id');
     }
     public function komisi (){
-        return $this->belongsTo(Komisi::class, 'id');
+        return $this->belongsTo(Komisi::class,'id_komisi', 'id');
     }
     public function flag_pegawai (){
-        return $this->belongsTo(Flag_Pegawai::class, 'id');
+        return $this->belongsTo(Flag_Pegawai::class,'id_flag_pegawai', 'id');
     }
     // const STATUS_ACTIVE    = 1;
     // const STATUS_SUSPENDED = 2;

@@ -44,7 +44,7 @@ class DewanController extends Controller
             $query->where('nama', 'LIKE', '%' . request('q') . '%')
                 ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
         })
-        ->where('id_flag_pegawai', request('flag_pegawai'))
+        // ->where('id_flag_pegawai', request('flag_pegawai'))
         ->paginate(request('per_page'));
 
         return response()->json($data);
