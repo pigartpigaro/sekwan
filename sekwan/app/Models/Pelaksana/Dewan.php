@@ -2,6 +2,9 @@
 
 namespace App\Models\Pelaksana;
 
+use App\Models\Pelaksana\Jabatan;
+use App\Models\Pelaksana\Komisi;
+use App\Models\Pelaksana\Flag_Pegawai;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

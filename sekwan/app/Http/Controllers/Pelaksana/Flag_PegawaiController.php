@@ -11,7 +11,8 @@ class Flag_PegawaiController extends Controller
 {
     public function index(){
         $flag = request('flag') ?? '';
-        $data = Flag_Pegawai::where(function ($sts) use ($flag) {
+        $data = Flag_Pegawai::first('id')
+        ->where(function ($sts) use ($flag) {
             if ($flag === '') {
                 $sts->where('flag', '!=', '1');
             } else {

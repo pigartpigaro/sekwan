@@ -15,20 +15,21 @@ use Illuminate\Support\Facades\DB;
 
 class DewanController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         // $data=Dewan::get();
         // $data = DB::table('dewans')->select('id','nama','nik', 'komisi')->get();
         // $data = DB::table('dewans')->whereIn('status', [0, 1])->get();
-        $status = request('status') ?? '';
+
         // $data = Dewan::whereIn('status', $status)
         //     ->where(function ($query) {
         //         $query->where('nama', 'LIKE', '%' . request('q') . '%')
         //             ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
         //     })
         //     ->paginate(10);
-
+        $status = request('status') ?? '';
         $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai'])
+        // ->whereHas('flag_pegawai', request('id_flag_pegawai'))
         ->where(function ($sts) use ($status) {
             if ($status !== 'all') {
                 if ($status === '0') {
@@ -38,11 +39,12 @@ class DewanController extends Controller
                 }
             }
         })
+
         ->where(function ($query) {
             $query->where('nama', 'LIKE', '%' . request('q') . '%')
                 ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
         })
-        ->where('id_flag_pegawai', request('id_flag_pegawai'))
+        ->where('id_flag_pegawai', request('flag_pegawai'))
         ->paginate(request('per_page'));
 
         return response()->json($data);
@@ -67,7 +69,7 @@ class DewanController extends Controller
         // if(!$komisi){
         //     return new JsonResponse(['message' => 'data komisi tidak ditemukan', 'data' => $komisi], 501);
         // }
-        // $pegawai = Flag_Pegawai::where('id','=',$request->id_komisi)->first();
+        // $pegawai = Flag_Pegawai::where('id','=',$request->id_flag_pegawai)->first();
         // if(!$komisi){
         //     return new JsonResponse(['message' => 'data komisi tidak ditemukan', 'data' => $pegawai], 501);
         // }
