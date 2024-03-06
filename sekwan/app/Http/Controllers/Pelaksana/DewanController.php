@@ -30,27 +30,31 @@ class DewanController extends Controller
         //     ->paginate(10);
 
         // manggil status
-        $status = request('flag') ?? '';
+        // $status = request('flag') ?? '';
+        $komisi = Komisi::select('id')
+        ->where('komisi', 'LIKE', '%' . request('q') . '%')
+        ->get('id');
         $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai'])
-        ->where(function ($sts) use ($status) {
+        // ->where(function ($sts) use ($status) {
 
-                if ($status === '') {
-                    $sts->where('flag', '!=', '1');
-                } else {
-                    $sts->where('flag', '=', $status);
-                }
-
-        })
-
-    //     $data = Dewan::leftJoin('jabatans', 'dewans.id', '=', 'jabatans.id')
-    //         ->leftJoin('komisis','dewans.id','=','komisis.id')
-    //  ->get();
+        //         if ($status === '') {
+        //             $sts->where('flag', '!=', '1');
+        //         } else {
+        //             $sts->where('flag', '=', $status);
+        //         }
+        // })
 
 
-        ->where(function ($query) {
-            $query->where('nama', 'LIKE', '%' . request('q') . '%')
+        ->where(function ($query) use ($komisi) {
+            $query->when(count($komisi), function($q) use ($komisi){
+                $q->whereIn('id_komisi', $komisi);
+            })
+                ->orWhere('nama', 'LIKE', '%' . request('q') . '%')
                 ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
+
         })
+
+
         // ->where('id_flag_pegawai', request('flag_pegawai'))
         ->paginate(request('per_page'));
 
