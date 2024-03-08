@@ -50,6 +50,9 @@ class DewanController extends Controller
         ->when(request('komisi_id'), function ($query) {
             $query->where('id_komisi', request('komisi_id'));
         })
+        ->when(request('id_flag_pegawai'), function ($query) {
+            $query->where('id_flag_pegawai', request('id_flag_pegawai'));
+        })
         // ->orWhere(function ($query) use ($komisi) {
         //     $query->when(count($komisi), function($komisi_id) use ($komisi){
         //         $komisi_id->whereIn('id_komisi', $komisi);
