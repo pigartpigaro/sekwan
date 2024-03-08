@@ -15,6 +15,7 @@ class UH_PerdinLuarKota extends Model
     protected $guarded = ['id'];
     protected $table = 'uangharians';
     protected $dates = ['deleted_at'];
+    protected $timestamp = false;
 
     public function provinsi(){
         return $this -> belongsTo(Provinsi::class);

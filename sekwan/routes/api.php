@@ -13,6 +13,7 @@ use App\Http\Controllers\Pelaksana\DewanController;
 use App\Http\Controllers\Pelaksana\Flag_PegawaiController;
 use App\Http\Controllers\Pelaksana\JabatanController;
 use App\Http\Controllers\Pelaksana\KomisiController;
+use App\Http\Controllers\Transaksi\Transaksi_PerdinController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -111,5 +112,11 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/storepenginapan', [Penginapan_dlmNegeriController::class, 'store']);
     Route::post('/updatepenginapan', [Penginapan_dlmNegeriController::class, 'update']);
     Route::post('/deletepenginapan', [Penginapan_dlmNegeriController::class, 'delete']);
+
+
+    // TRANSAKSI
+    Route::get('/uangharian', [Transaksi_PerdinController::class,'uangharian']);
+    Route::post('/storeperdin', [Transaksi_PerdinController::class,'store']);
+
 });
 

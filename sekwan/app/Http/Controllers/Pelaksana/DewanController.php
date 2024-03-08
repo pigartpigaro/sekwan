@@ -30,10 +30,10 @@ class DewanController extends Controller
         //     ->paginate(10);
 
         // manggil status
-        // $status = request('flag') ?? '';
-        $komisi = Komisi::select('id')
-        ->where('komisi', 'LIKE', '%' . request('q') . '%')
-        ->get('id');
+        // $komisi = request('komisi') ?? '';
+        // $komisi = Komisi::select('id')
+        // ->where('komisi', 'LIKE', '%' . request('komisi_id') . '%')
+        // ->get('id');
         $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai'])
         // ->where(function ($sts) use ($status) {
 
@@ -43,19 +43,19 @@ class DewanController extends Controller
         //             $sts->where('flag', '=', $status);
         //         }
         // })
-
-
-        ->where(function ($query) use ($komisi) {
-            $query->when(count($komisi), function($q) use ($komisi){
-                $q->whereIn('id_komisi', $komisi);
-            })
-                ->orWhere('nama', 'LIKE', '%' . request('q') . '%')
-                ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
-
+        ->when(request('q'), function ($query) {
+            $query->where('nama', 'LIKE', '%' . request('q') . '%')
+            ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
         })
+        ->when(request('komisi_id'), function ($query) {
+            $query->where('id_komisi', request('komisi_id'));
+        })
+        // ->orWhere(function ($query) use ($komisi) {
+        //     $query->when(count($komisi), function($komisi_id) use ($komisi){
+        //         $komisi_id->whereIn('id_komisi', $komisi);
+        //     });
+        // })
 
-
-        // ->where('id_flag_pegawai', request('flag_pegawai'))
         ->paginate(request('per_page'));
 
         return response()->json($data);

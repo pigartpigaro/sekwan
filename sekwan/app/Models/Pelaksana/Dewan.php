@@ -2,6 +2,7 @@
 
 namespace App\Models\Pelaksana;
 
+use App\Models\JenisBiaya\UH_PerdinLuarKota;
 use App\Models\Pelaksana\Jabatan;
 use App\Models\Pelaksana\Komisi;
 use App\Models\Pelaksana\Flag_Pegawai;
@@ -13,6 +14,7 @@ class Dewan extends Model
     use HasFactory;
     protected $guarded = ['id'];
     protected $table = 'dewans';
+    protected $timestamp = false;
 
     public function jabatan (){
         return $this->belongsTo(Jabatan::class,'id_jabatan', 'id');
@@ -22,6 +24,10 @@ class Dewan extends Model
     }
     public function flag_pegawai (){
         return $this->belongsTo(Flag_Pegawai::class,'id_flag_pegawai', 'id');
+    }
+
+    public function perdin(){
+        return $this->hasMany(UH_PerdinLuarKota::class,'name', 'nama');
     }
     // const STATUS_ACTIVE    = 1;
     // const STATUS_SUSPENDED = 2;
