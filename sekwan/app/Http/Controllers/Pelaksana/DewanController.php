@@ -18,9 +18,18 @@ class DewanController extends Controller
 {
     public function index()
     {
+        $status = request('status') ?? '';
 
         $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai'])
 
+        ->where(function ($sts) use ($status) {
+
+            if ($status === '') {
+                $sts->where('status', '!=', '1');
+            } else {
+                $sts->where('status', '=', $status);
+            }
+        })
         ->when(request('id_flag_pegawai'), function ($query) {
             $query->where('id_flag_pegawai', request('id_flag_pegawai'));
         })
@@ -140,9 +149,9 @@ class DewanController extends Controller
         // return response()->json('Success', 'Status Berhasil Ganti');
 
         $cari = Dewan::find($request->id);
-        if (!$cari) {
-            return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
-        }
+        // if (!$cari) {
+        //     return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
+        // }
         $ganti = $cari->status;
         if ($ganti !== 1) {
         $ganti = $cari->update([

@@ -80,7 +80,7 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/updatedewan', [DewanController::class, 'update']);
     Route::post('/deletedewan', [DewanController::class, 'delete']);
     Route::post('/statusdewan', [DewanController::class, 'status']);
-    Route::post('/pegawai', [DewanController::class, 'pegwai']);
+
 
     // route Jabatan
     Route::get('/indexjabatan', [JabatanController::class, 'index']);
