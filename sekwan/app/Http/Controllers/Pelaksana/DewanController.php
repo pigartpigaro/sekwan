@@ -18,46 +18,19 @@ class DewanController extends Controller
 {
     public function index()
     {
-        // $data=Dewan::get();
-        // $data = DB::table('dewans')->select('id','nama','nik', 'komisi')->get();
-        // $data = DB::table('dewans')->whereIn('status', [0, 1])->get();
 
-        // $data = Dewan::whereIn('status', $status)
-        //     ->where(function ($query) {
-        //         $query->where('nama', 'LIKE', '%' . request('q') . '%')
-        //             ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
-        //     })
-        //     ->paginate(10);
-
-        // manggil status
-        // $komisi = request('komisi') ?? '';
-        // $komisi = Komisi::select('id')
-        // ->where('komisi', 'LIKE', '%' . request('komisi_id') . '%')
-        // ->get('id');
         $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai'])
-        // ->where(function ($sts) use ($status) {
 
-        //         if ($status === '') {
-        //             $sts->where('flag', '!=', '1');
-        //         } else {
-        //             $sts->where('flag', '=', $status);
-        //         }
-        // })
-        ->when(request('q'), function ($query) {
-            $query->where('nama', 'LIKE', '%' . request('q') . '%')
-            ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
+        ->when(request('id_flag_pegawai'), function ($query) {
+            $query->where('id_flag_pegawai', request('id_flag_pegawai'));
         })
         ->when(request('komisi_id'), function ($query) {
             $query->where('id_komisi', request('komisi_id'));
         })
-        ->when(request('id_flag_pegawai'), function ($query) {
-            $query->where('id_flag_pegawai', request('id_flag_pegawai'));
+        ->when(request('q'), function ($query) {
+            $query->where('nama', 'LIKE', '%' . request('q') . '%')
+            ->orWhere('nik', 'LIKE', '%' . request('q') . '%');
         })
-        // ->orWhere(function ($query) use ($komisi) {
-        //     $query->when(count($komisi), function($komisi_id) use ($komisi){
-        //         $komisi_id->whereIn('id_komisi', $komisi);
-        //     });
-        // })
 
         ->paginate(request('per_page'));
 
