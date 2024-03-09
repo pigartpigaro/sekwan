@@ -105,30 +105,21 @@ class DewanController extends Controller
 
     public function delete(Request $request)
     {
-
-        // $data = Dewan::find($request->id);
-        // if (!$data) {
-        //     return response()->json('NotValid', 500);
-        // }
-        // $data->delete()->update([
-        //     'hide' => 1
-        // ]);
-
-        // return response()->json('Success');
         $cari = Dewan::find($request->id);
         if (!$cari) {
             return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
         }
-        $hapus = $cari->flag;
-        if ($hapus !== 1) {
-        $hapus = $cari->update([
-            'flag'  => 1,
-        ]);
-        if (!$hapus) {
-            return new JsonResponse(['message' => 'gagal dihapus'], 501);
-        }
+        $cari->delete();
+        // $hapus = $cari->flag;
+        // if ($hapus !== 1) {
+        // $hapus = $cari->update([
+        //     'flag'  => 1,
+        // ]);
+        // if (!$hapus) {
+        //     return new JsonResponse(['message' => 'gagal dihapus'], 501);
+        // }
         return new JsonResponse(['message' => 'berhasil dihapus'], 200);
-        }
+
     }
     public function status(Request $request)
     {
