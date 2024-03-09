@@ -123,22 +123,6 @@ class DewanController extends Controller
     }
     public function status(Request $request)
     {
-        // $data = Dewan::where('id', $id)->first();
-
-        // $aktif = $data->status;
-
-        // if ($aktif == 1) {
-        //     Dewan::where('id', $id)->update([
-        //         'status' => 0
-        //     ]);
-        // } else {
-        //     Dewan::where('id', $id)->update([
-        //         'status' => 1
-        //     ]);
-        // }
-
-        // return response()->json('Success', 'Status Berhasil Ganti');
-
         $cari = Dewan::find($request->id);
         // if (!$cari) {
         //     return new JsonResponse(['message' => 'data tidak ditemukan'], 501);
