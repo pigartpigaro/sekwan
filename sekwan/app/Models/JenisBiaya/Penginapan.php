@@ -8,18 +8,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Penginapan_dlmNegeri extends Model
+class Penginapan extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $guarded = ['id'];
-    protected $table = 'penginapan_dlmnegeris';
-    protected $dates = ['deleted_at'];
+    protected $table = 'penginapans';
+    protected $timestamp = false;
 
     public function provinsi(){
-        return $this -> belongsTo(Provinsi::class);
+        return $this -> belongsTo(Provinsi::class, 'provinsi_id', 'id');
     }
     public function golongan(){
-        return $this -> belongsTo(Golongan::class);
+        return $this -> belongsTo(Golongan::class, 'golongan_id', 'id');
     }
 }

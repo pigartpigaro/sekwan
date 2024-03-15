@@ -2,6 +2,7 @@
 
 namespace App\Models\Master;
 
+use App\Models\JenisBiaya\Penginapan;
 use App\Models\JenisBiaya\Penginapan_dlmNegeri;
 use App\Models\JenisBiaya\UH_PerdinLuarKota;
 use App\Models\Master\Tingkatan;
@@ -15,16 +16,13 @@ class Provinsi extends Model
     protected $guarded = ['id'];
     protected $table = 'provinsis';
 
-    public function tingkatan (){
-        return $this->hasMany(Tingkatan::class);
-    }
-    public function golongan (){
-        return $this->hasMany(Golongan::class);
-    }
-    public function uh (){
-        return $this->hasMany(UH_PerdinLuarKota::class);
+    public function uangharian (){
+        return $this->hasMany(UH_PerdinLuarKota::class, 'provinsi_id', 'id');
     }
     public function penginapan (){
-        return $this->hasMany(Penginapan_dlmNegeri::class);
+        return $this->hasMany(Penginapan::class, 'provinsi_id', 'id');
+    }
+    public function kota (){
+        return $this->hasMany(Kota_Kab::class, 'provinsi_id', 'id');
     }
 }

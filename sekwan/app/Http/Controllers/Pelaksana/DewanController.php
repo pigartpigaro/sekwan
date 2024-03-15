@@ -20,7 +20,7 @@ class DewanController extends Controller
     {
         $status = request('status') ?? '';
 
-        $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai'])
+        $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai', 'tingkatan', 'golongan'])
 
         ->where(function ($sts) use ($status) {
 
@@ -75,6 +75,8 @@ class DewanController extends Controller
             'jns_kelamin'  => $request->jns_kelamin,
             'alamat'       => $request->alamat,
             'id_jabatan'   => $request->id_jabatan,
+            'golongan_id'   => $request->golongan_id,
+            'tingkatan_id'   => $request->tingkatan_id,
             'id_komisi'    => $request->id_komisi,
             'id_flag_pegawai' => $request->id_flag_pegawai,
 
@@ -95,6 +97,8 @@ class DewanController extends Controller
             'jns_kelamin' => $request->jns_kelamin,
             'alamat'      => $request->alamat,
             'id_jabatan'  => $request->id_jabatan,
+            'golongan_id'   => $request->golongan_id,
+            'tingkatan_id'   => $request->tingkatan_id,
             'id_komisi'   => $request->id_komisi,
             'id_flag_pegawai' => $request->id_flag_pegawai,
 

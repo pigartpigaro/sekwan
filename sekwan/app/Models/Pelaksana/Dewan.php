@@ -3,6 +3,8 @@
 namespace App\Models\Pelaksana;
 
 use App\Models\JenisBiaya\UH_PerdinLuarKota;
+use App\Models\Master\Golongan;
+use App\Models\Master\Tingkatan;
 use App\Models\Pelaksana\Jabatan;
 use App\Models\Pelaksana\Komisi;
 use App\Models\Pelaksana\Flag_Pegawai;
@@ -22,6 +24,13 @@ class Dewan extends Model
     public function komisi (){
         return $this->belongsTo(Komisi::class,'id_komisi', 'id');
     }
+    public function tingkatan (){
+        return $this->belongsTo(Tingkatan::class,'tingkatan_id', 'id');
+    }
+    public function golongan (){
+        return $this->belongsTo(Golongan::class,'golongan_id', 'id');
+    }
+
     public function flag_pegawai (){
         return $this->belongsTo(Flag_Pegawai::class,'id_flag_pegawai', 'id');
     }

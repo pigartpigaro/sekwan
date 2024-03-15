@@ -19,19 +19,19 @@ class UH_PerdinLuarKotaController extends Controller
     }
 
     public function store(Request $request){
-        $provinsi = Provinsi::where('id','=',$request->id_provinsi)->first();
+        $provinsi = Provinsi::where('id','=',$request->provinsi_id)->first();
         if(!$provinsi){
             return response()->json('NotValid',500);
         }
-        $tingkat = Tingkatan::where('id','=',$request->id_tingkatan)->first();
+        $tingkat = Tingkatan::where('id','=',$request->tingkatan_id)->first();
         if(!$tingkat){
             return response()->json('NotValid',500);
         }
 
         $data=UH_PerdinLuarKota::create([
-            'id_provinsi'=> $request->id_provinsi,
+            'provinsi_id'=> $request->provinsi_id,
             'satuan'=> $request->satuan,
-            'id_tingkatan'=> $request->id_tingkatan,
+            'tingkatan_id'=> $request->tingkatan_id,
             'biaya' => $request->biaya,
             'nama' =>$request->nama,
         ]);
@@ -45,9 +45,9 @@ class UH_PerdinLuarKotaController extends Controller
             return response()->json('NotValid',500);
         }
         $data->update([
-            'id_provinsi'=> $request->id_provinsi,
+            'provinsi_id'=> $request->provinsi_id,
             'satuan'=> $request->satuan,
-            'id_tingkatan'=> $request->id_tingkatan,
+            'tingkatan_id'=> $request->tingkatan_id,
             'biaya'=> $request->biaya,
             'nama' =>$request->nama,
         ]);
@@ -55,14 +55,14 @@ class UH_PerdinLuarKotaController extends Controller
         return response()->json('Success');
     }
 
-    public function delete(Request $request){
-        $data=UH_PerdinLuarKota::find($request->id);
-        if(!$data){
-            return response()->json('NotValid',500);
-        }
-        $data->delete();
+    // public function delete(Request $request){
+    //     $data=UH_PerdinLuarKota::find($request->id);
+    //     if(!$data){
+    //         return response()->json('NotValid',500);
+    //     }
+    //     $data->delete();
 
-        return response()->json('Success');
-    }
+    //     return response()->json('Success');
+    // }
 
 }

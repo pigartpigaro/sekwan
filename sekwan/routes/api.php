@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\JenisBiaya\Penginapan_dlmNegeriController;
+use App\Http\Controllers\JenisBiaya\SemuaBiayaController;
 use App\Http\Controllers\JenisBiaya\UH_PerdinLuarKotaController;
 use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Master\GolonganController;
@@ -114,9 +115,9 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/deletepenginapan', [Penginapan_dlmNegeriController::class, 'delete']);
 
 
-    // TRANSAKSI
-    Route::get('/uangharian', [Transaksi_PerdinController::class,'uangharian']);
-    Route::post('/storeperdin', [Transaksi_PerdinController::class,'store']);
-
+    // Transaksi
+    Route::get('/index', [Transaksi_PerdinController::class, 'index']);
+    Route::post('/store', [Transaksi_PerdinController::class, 'storeheader']);
+    Route::post('/storerinci', [Transaksi_PerdinController::class, 'storerinci']);
 });
 

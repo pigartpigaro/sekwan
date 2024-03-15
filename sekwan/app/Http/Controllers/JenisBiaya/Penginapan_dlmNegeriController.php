@@ -57,13 +57,13 @@ class Penginapan_dlmNegeriController extends Controller
         return response()->json('Success');
     }
 
-    public function delete(Request $request){
-        $data=Penginapan_dlmNegeri::find($request->id);
-        if(!$data){
-            return response()->json('NotValid',500);
-        }
-        $data->delete();
+    // public function delete(Request $request){
+    //     $data=Penginapan_dlmNegeri::find($request->id);
+    //     if(!$data){
+    //         return response()->json('NotValid',500);
+    //     }
+    //     $data->delete();
 
-        return response()->json('Success');
-    }
+    //     return response()->json('Success');
+    // }
 }

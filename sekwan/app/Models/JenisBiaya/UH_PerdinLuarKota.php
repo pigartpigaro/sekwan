@@ -6,21 +6,21 @@ use App\Models\Master\Provinsi;
 use App\Models\Master\Tingkatan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class UH_PerdinLuarKota extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $guarded = ['id'];
     protected $table = 'uangharians';
-    protected $dates = ['deleted_at'];
+
     protected $timestamp = false;
 
     public function provinsi(){
-        return $this -> belongsTo(Provinsi::class);
+        return $this -> belongsTo(Provinsi::class, 'provinsi_id', 'id');
     }
-    public function tingakatan(){
-        return $this -> belongsTo(Tingkatan::class);
+    public function tingkatan(){
+        return $this -> belongsTo(Tingkatan::class, 'tingkatan_id', 'id');
     }
 }
