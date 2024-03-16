@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JenisBiaya\JenisBiayaController;
 use App\Http\Controllers\JenisBiaya\Penginapan_dlmNegeriController;
 use App\Http\Controllers\JenisBiaya\SemuaBiayaController;
 use App\Http\Controllers\JenisBiaya\UH_PerdinLuarKotaController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Pelaksana\Flag_PegawaiController;
 use App\Http\Controllers\Pelaksana\JabatanController;
 use App\Http\Controllers\Pelaksana\KomisiController;
 use App\Http\Controllers\Transaksi\Transaksi_PerdinController;
+use App\Models\JenisBiaya\JenisBiaya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -102,17 +104,12 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/deleteflagpgw', [Flag_PegawaiController::class, 'delete']);
 
 
-    // route UangHarian
-    Route::get('/indexuangharian', [UH_PerdinLuarKotaController::class, 'index']);
-    Route::post('/storeuangharian', [UH_PerdinLuarKotaController::class, 'store']);
-    Route::post('/updateuangharian', [UH_PerdinLuarKotaController::class, 'update']);
-    Route::post('/deleteuangharian', [UH_PerdinLuarKotaController::class, 'delete']);
-
-    // route UangHarian
-    Route::get('/indexpenginapan', [Penginapan_dlmNegeriController::class, 'index']);
-    Route::post('/storepenginapan', [Penginapan_dlmNegeriController::class, 'store']);
-    Route::post('/updatepenginapan', [Penginapan_dlmNegeriController::class, 'update']);
-    Route::post('/deletepenginapan', [Penginapan_dlmNegeriController::class, 'delete']);
+    // route Jenis Biaya
+    Route::get('/uangharian', [JenisBiayaController::class, 'uangharian']);
+    Route::get('/penginapan', [JenisBiayaController::class, 'penginapan']);
+    Route::get('/transport', [JenisBiayaController::class, 'transport']);
+    Route::get('/pesawat', [JenisBiayaController::class, 'pesawat']);
+    Route::get('/taksi', [JenisBiayaController::class, 'taksi']);
 
 
     // Transaksi
