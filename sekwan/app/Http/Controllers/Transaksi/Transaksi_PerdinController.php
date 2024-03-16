@@ -39,13 +39,15 @@ class Transaksi_PerdinController extends Controller
     public function index(){
         $perdin = Trans_rinci::latest('id')
         ->with(['header'=>function($header){
-            $header->with(['kepmen50','provinsi'=>function($prov){
-                $prov->with(['kota']);
-            },'kota']);
+            $header->with(['kepmen50','provinsi','kota']);
         },'uangharian'=>function($uh){
             $uh->with(['tingkatan']);
         },'penginapan'=>function($inap){
-            $inap->with(['golongan']);
+            $inap->with(['provinsi','golongan']);
+        },'transportasi'=>function($trans){
+            $trans->with(['provinsi','kota']);
+        },'pesawat','taksi'=>function($taksi){
+            $taksi->with(['provinsi']);
         },'dewan'])
         ->paginate(request('per_page'));
         return new JsonResponse($perdin);
