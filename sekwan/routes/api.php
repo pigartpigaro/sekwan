@@ -105,6 +105,7 @@ Route::group(['middleware' => ['api']], function() {
 
 
     // route Jenis Biaya
+    Route::get('/jenisbiaya', [JenisBiayaController::class, 'jenisbiaya']);
     Route::get('/uangharian', [JenisBiayaController::class, 'uangharian']);
     Route::get('/penginapan', [JenisBiayaController::class, 'penginapan']);
     Route::get('/transport', [JenisBiayaController::class, 'transport']);
