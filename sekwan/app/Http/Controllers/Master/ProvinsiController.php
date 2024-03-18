@@ -9,9 +9,8 @@ use App\Models\Master\Provinsi;
 class ProvinsiController extends Controller
 {
     public function index(){
-        $data=Provinsi::latest()
-        ->where('name', request('q'))
-        ->paginate(request('per_page'));
+        $data=Provinsi::first()
+        ->get();
         return response()->json($data);
     }
 
