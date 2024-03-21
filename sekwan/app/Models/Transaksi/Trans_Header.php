@@ -27,6 +27,9 @@ class Trans_Header extends Model
     public function kota(){
         return $this->belongsTo(Kota_Kab::class,'kota', 'name');
     }
+    public function rinci(){
+        return $this->hasMany(Trans_rinci::class, 'header', 'id');
+    }
 
     // public function jnsbiaya(){
     //     return $this->belongsTo(JenisBiaya::class,'jenisbiaya', 'id');
