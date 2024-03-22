@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Master;
 
 use App\Models\Master\Kota_Kab;
 use App\Http\Controllers\Controller;
+use App\Models\Master\Provinsi;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 class KotaKabController extends Controller
 {
     public function index(){
-        $data=Kota_Kab::first()
-        ->get();
+        $data=Kota_Kab::where('provinsi_id', request('id_propinsi'))->get();
+
         return response()->json($data);
     }
 
