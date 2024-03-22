@@ -11,6 +11,7 @@ class Kepmen050Controller extends Controller
     public function index(){
         $data=Kepmen050::where('akun','5')
         ->where('kelompok','1')
+        ->where('subrincian_objek','!=', '')
 
         ->paginate(request('per_page'));
         return response()->json($data);
