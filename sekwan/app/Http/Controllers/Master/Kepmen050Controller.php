@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 class Kepmen050Controller extends Controller
 {
     public function index(){
-        $data=Kepmen050::where('akun',5)
-        ->where('kelompok',1)
+        $data=Kepmen050::where('akun','5')
+        ->where('kelompok','1')
 
         ->paginate(request('per_page'));
         return response()->json($data);
