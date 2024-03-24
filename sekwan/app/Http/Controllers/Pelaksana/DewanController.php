@@ -7,6 +7,7 @@ use App\Models\Pelaksana\Dewan;
 use App\Models\Pelaksana\Flag_Pegawai;
 use App\Models\Pelaksana\Jabatan;
 use App\Models\Pelaksana\Komisi;
+use App\Models\Transaksi\Trans_rinci;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
@@ -18,8 +19,9 @@ class DewanController extends Controller
 {
     public function index()
     {
-        $status = request('status') ?? '';
 
+        $status = request('status') ?? '';
+        $pegawai =[1, 2];
         $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai', 'tingkatan', 'golongan'])
 
         ->where(function ($sts) use ($status) {
@@ -30,8 +32,10 @@ class DewanController extends Controller
                 $sts->where('status', '=', $status);
             }
         })
-        ->when(request('id_flag_pegawai'), function ($query) {
-            $query->where('id_flag_pegawai', request('id_flag_pegawai'));
+        ->whereIn('id_flag_pegawai', $pegawai)
+        ->when(request('id_flag_pegawai'), function ($query){
+            $query->where('id_flag_pegawai', request('id_flag_pegawai'))
+            ;
         })
         ->when(request('komisi_id'), function ($query) {
             $query->where('id_komisi', request('komisi_id'));
@@ -109,6 +113,7 @@ class DewanController extends Controller
 
     public function delete(Request $request)
     {
+        $trans = Trans_rinci::where('dewan', '=', '');
         $cari = Dewan::find($request->id);
         if (!$cari) {
             return new JsonResponse(['message' => 'data tidak ditemukan'], 501);

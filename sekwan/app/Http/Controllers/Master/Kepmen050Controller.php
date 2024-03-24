@@ -12,7 +12,11 @@ class Kepmen050Controller extends Controller
         $data=Kepmen050::where('akun','5')
         ->where('kelompok','1')
         ->where('subrincian_objek','!=', '')
+        // ->where('uraian', 'LIKE', '%' . request(" ") . '%')
+        ->when(request('uraian'), function ($query) {
+            $query->where('uraian', 'LIKE', '%' . request('uraian') . '%');
 
+        })
         ->paginate(request('per_page'));
         return response()->json($data);
     }
