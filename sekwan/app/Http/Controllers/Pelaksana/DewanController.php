@@ -21,7 +21,14 @@ class DewanController extends Controller
     {
 
         $status = request('status') ?? '';
-        $pegawai =[1, 2];
+
+        if (request('id_flag_pegawai' === null)){
+        $pegawai = [1,2];
+        }else {
+            $pegawai = request(['id_flag_pegawai']);
+        }
+
+
         $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai', 'tingkatan', 'golongan'])
 
         ->where(function ($sts) use ($status) {
@@ -32,11 +39,11 @@ class DewanController extends Controller
                 $sts->where('status', '=', $status);
             }
         })
+
         ->whereIn('id_flag_pegawai', $pegawai)
-        ->when(request('id_flag_pegawai'), function ($query){
-            $query->where('id_flag_pegawai', request('id_flag_pegawai'))
-            ;
-        })
+        // ->when(request('id_flag_pegawai'), function ($query){
+        //     $query->where('id_flag_pegawai', request('id_flag_pegawai'));
+        // })
         ->when(request('komisi_id'), function ($query) {
             $query->where('id_komisi', request('komisi_id'));
         })
