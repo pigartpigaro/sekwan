@@ -22,11 +22,11 @@ class DewanController extends Controller
 
         $status = request('status') ?? '';
 
-        if (request('id_flag_pegawai' === null)){
-        $pegawai = [1,2];
+        if (request('id_flag_pegawai') === null){
+            $pegawai = [1,2];
         }else {
             $pegawai = request(['id_flag_pegawai']);
-        }
+        };
 
 
         $data = Dewan::with(['jabatan', 'komisi', 'flag_pegawai', 'tingkatan', 'golongan'])
