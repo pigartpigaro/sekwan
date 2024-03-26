@@ -18,8 +18,11 @@ class JenisBiayaController extends Controller
         $data=JenisBiaya::all();
         return new JsonResponse($data);
     }
-    public function uangharian(){
+    public function uangharian()
+    {
         $data=UH_PerdinLuarKota::first()
+        ->where('provinsi_id', request('id_propinsi'))
+        ->where('tingkatan_id', request('tingkatan'))
         ->get();
 
         return new JsonResponse($data);
@@ -27,6 +30,8 @@ class JenisBiayaController extends Controller
     public function penginapan()
     {
         $data=Penginapan::first()
+        ->where('provinsi_id', request('id_propinsi'))
+        ->where('golongan_id', request('golongan'))
         ->get();
 
         return new JsonResponse($data);
@@ -35,8 +40,10 @@ class JenisBiayaController extends Controller
     public function transport()
     {
         $data=Biaya_Transportasi::first()
-        ->with(['provinsi', 'kota'])
-        ->paginate(request('per_page'));
+        ->where('provinsi', request('provinsi'))
+        ->where('kota', request('kota'))
+        ->where('kendaraan', request('kendaraan'))
+        ->get();
 
         return response()->json(['data' => $data]);
 
@@ -44,8 +51,9 @@ class JenisBiayaController extends Controller
     public function pesawat()
     {
         $data=Pesawat::first()
+        ->where('tujuan', request('tujuan'))
 
-        ->paginate(request('per_page'));
+        ->get();
 
         return response()->json(['data' => $data]);
 
@@ -53,8 +61,8 @@ class JenisBiayaController extends Controller
     public function taksi()
     {
         $data=Taksi::first()
-        ->with(['provinsi'])
-        ->paginate(request('per_page'));
+        ->where('provinsi', request('provinsi'))
+        ->get();
 
         return response()->json(['data' => $data]);
 
