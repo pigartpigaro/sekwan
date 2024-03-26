@@ -57,18 +57,11 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/deletekab', [KotaKabController::class, 'delete']);
 
 
-    // route Tingkat
-    Route::get('/indextingkat', [TingkatanController::class, 'index']);
-    Route::post('/storetingkat', [TingkatanController::class, 'store']);
-    Route::post('/updatetingkat', [TingkatanController::class, 'update']);
-    Route::post('/deletetingkat', [TingkatanController::class, 'delete']);
+    // route Tingkat / Golongan
+    Route::get('/indextingkat', [TingkatanController::class, 'tingkat']);
+    Route::get('/indexgol', [GolonganController::class, 'golongan']);
 
 
-    // route Golongan
-    Route::get('/indexgol', [GolonganController::class, 'index']);
-    Route::post('/storegol', [GolonganController::class, 'store']);
-    Route::post('/updategol', [GolonganController::class, 'update']);
-    Route::post('/deletegol', [GolonganController::class, 'delete']);
 
     // route rekening 050
     Route::get('/indexkepmen', [Kepmen050Controller::class, 'index']);

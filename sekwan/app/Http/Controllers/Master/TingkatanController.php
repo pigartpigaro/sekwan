@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class TingkatanController extends Controller
 {
-    public function index(){
+    public function tingkat(){
         $data=Tingkatan::get();
         return response()->json($data);
     }
