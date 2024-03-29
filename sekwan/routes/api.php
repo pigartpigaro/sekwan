@@ -57,10 +57,10 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/deletekab', [KotaKabController::class, 'delete']);
 
 
-    // route Tingkat / Golongan
+    // route Tingkat / Golongan / Kendaraan
     Route::get('/indextingkat', [TingkatanController::class, 'tingkat']);
     Route::get('/indexgol', [GolonganController::class, 'golongan']);
-
+    Route::get('/kendaraan', [JenisBiayaController::class, 'kendaraan']);
 
 
     // route rekening 050

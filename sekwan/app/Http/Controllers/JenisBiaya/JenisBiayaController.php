@@ -9,6 +9,7 @@ use App\Models\JenisBiaya\Penginapan;
 use App\Models\JenisBiaya\Pesawat;
 use App\Models\JenisBiaya\Taksi;
 use App\Models\JenisBiaya\UH_PerdinLuarKota;
+use App\Models\Master\Kendaraan;
 use Illuminate\Http\JsonResponse;
 
 class JenisBiayaController extends Controller
@@ -69,5 +70,8 @@ class JenisBiayaController extends Controller
         return response()->json(['data' => $data]);
 
     }
-
+    public function kendaraan(){
+        $data=Kendaraan::get();
+        return response()->json($data);
+    }
 }
