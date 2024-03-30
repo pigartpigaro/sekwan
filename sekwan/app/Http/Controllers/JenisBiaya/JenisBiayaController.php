@@ -51,19 +51,43 @@ class JenisBiayaController extends Controller
     }
     public function pesawat()
     {
-        $data=Pesawat::first()
-        ->orderBy('tujuan', 'desc')
+        $tujuan = request('tujuan');
+        // if ($tujuan !== null ) {
+        //     $data=Pesawat::where('id', $tujuan)
+        //     ->orderBy('tujuan', 'desc')
+        //     ->get();
 
-        // ->where('tujuan', function($query) {
-        //     $query->where('ekonomi')
-        //             ->orWhere('bisnis');
-        // })
-        ->get();
-
+        // }
+        if(request('kelas') === 'bisnis'){
+                    $data=Pesawat::select('bisnis')
+                    ->where(function ($tj) use ($tujuan) {
+                        if($tujuan !== null){
+                            $tj->where('id', $tujuan);
+                        }
+                    })
+                    ->orderBy('tujuan', 'desc')
+                    ->get();
+        }
+        elseif(request('kelas') === 'ekonomi'){
+            $data=Pesawat::select('ekonomi')
+            ->where(function ($tj) use ($tujuan) {
+                if($tujuan !== null){
+                    $tj->where('id', $tujuan);
+                }
+            })
+            ->orderBy('tujuan', 'desc')
+            ->get();
+        }
+        else{
+            $data=Pesawat::first()
+            ->orderBy('tujuan', 'desc')
+            ->get();
+        }
 
         return response()->json(['data' => $data]);
 
     }
+
     public function taksi()
     {
         $data=Taksi::first()
