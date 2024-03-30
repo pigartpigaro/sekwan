@@ -52,10 +52,13 @@ class JenisBiayaController extends Controller
     public function pesawat()
     {
         $data=Pesawat::first()
-        ->where('tujuan', request('tujuan'), function($query) {
-            $query->where('ekonomi')
-                    ->orWhere('bisnis');
-        })->get();
+        ->orderBy('tujuan', 'desc')
+
+        // ->where('tujuan', function($query) {
+        //     $query->where('ekonomi')
+        //             ->orWhere('bisnis');
+        // })
+        ->get();
 
 
         return response()->json(['data' => $data]);
