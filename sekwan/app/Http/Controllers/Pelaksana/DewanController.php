@@ -120,7 +120,14 @@ class DewanController extends Controller
 
     public function delete(Request $request)
     {
-        $trans = Trans_rinci::where('dewan', '=', '');
+        // $trans = Trans_rinci::where('dewan' === '');
+        //     if (request('id_flag_pegawai') === null){
+        //         $trans = [1,2];
+        //     }else {
+        //         $trans = request(['id_flag_pegawai']);
+        //     }
+        // };
+
         $cari = Dewan::find($request->id);
         if (!$cari) {
             return new JsonResponse(['message' => 'data tidak ditemukan'], 501);

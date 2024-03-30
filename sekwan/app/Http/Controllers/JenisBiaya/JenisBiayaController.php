@@ -41,7 +41,7 @@ class JenisBiayaController extends Controller
     public function transport()
     {
         $data=Biaya_Transportasi::first()
-        ->where('provinsi_id', request('provinsi'))
+        ->where('provinsi_id', request('id_propinsi'))
         ->where('kota_kabs_id', request('kota'))
         ->where('kendaraan_id', request('kendaraan'))
         ->get();
@@ -64,7 +64,7 @@ class JenisBiayaController extends Controller
     public function taksi()
     {
         $data=Taksi::first()
-        ->where('provinsi_id', request('provinsi'))
+        ->where('provinsi_id', request('id_propinsi'))
         ->get();
 
         return response()->json(['data' => $data]);
