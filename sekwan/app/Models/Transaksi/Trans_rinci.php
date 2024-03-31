@@ -22,21 +22,21 @@ class Trans_rinci extends Model
         return $this->belongsTo(Trans_Header::class, 'header', 'id');
     }
     public function uangharian (){
-        return $this->hasMany(UH_PerdinLuarKota::class, 'id', 'uangharian');
+        return $this->belongsTo(UH_PerdinLuarKota::class, 'uangharian', 'id');
     }
     public function penginapan (){
-        return $this->hasMany(Penginapan::class, 'id', 'penginapan');
+        return $this->belongsTo(Penginapan::class, 'penginapan', 'id');
     }
     public function transportasi (){
-        return $this->hasMany(Biaya_Transportasi::class, 'id', 'transportasi');
+        return $this->belongsTo(Biaya_Transportasi::class, 'transportasi', 'id');
     }
     public function pesawat (){
-        return $this->hasMany(Pesawat::class, 'tujuan', 'pesawat');
+        return $this->belongsTo(Pesawat::class, 'pesawat', 'id');
     }
     public function taksi (){
-        return $this->hasMany(Taksi::class, 'provinsi', 'taksi');
+        return $this->belongsTo(Taksi::class, 'taksi', 'id');
     }
     public function dewan (){
-        return $this->hasMany(Dewan::class, 'id', 'dewan');
+        return $this->belongsTo(Dewan::class, 'nik', 'id');
     }
 }

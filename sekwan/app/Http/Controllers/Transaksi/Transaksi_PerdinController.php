@@ -58,12 +58,12 @@ class Transaksi_PerdinController extends Controller
     {
         $post = new Trans_Header();
         $post->no_transaksi = self::buatnomor();
-        $post->tanggal = $request->date('Y/m/d');
+        $post->tanggal = $request->tanggal;
         $post->lamaperdin = $request->lamaperdin;
         $post->judul = $request->judul;
         $post->provinsi = $request->id_propinsi;
         $post->kota = $request->id_kota;
-        $post->rekening50 = $request->rekening50;
+        $post->rekening50 = $request->koderekekning;
         $post->save();
         $id = $post->id;
 
@@ -77,14 +77,9 @@ class Transaksi_PerdinController extends Controller
             $rinci->golongan = $request->golongan;
             $rinci->tingkatan = $request->tingkatan;
             $rinci->jenis_biaya = $request->id_jenistransaksi;
-            $rinci->uangharian_id = $request->uangharian_id;
-            $rinci->penginapan_id = $request->penginapan_id;
-            $rinci->transportasi_id = $request->id_jeniskendaraan;
-            $rinci->pesawat_id = $request->id_tujuanpesawat;
+            $rinci->jnskendaraan_id = $request->id_jeniskendaraan;
+            $rinci->tujuan_pesawat_id = $request->id_tujuanpesawat;
             $rinci->kelas_pesawat = $request->kelas;
-            $rinci->taksi_id = $request->taksi_id;
-            $rinci->provinsi_id = $request->provinsi_id;
-            $rinci->kota_id = $request->kota_id;
             $rinci->biaya = $request->biaya;
             $rinci->berapa_kali = $request->kuantitas;
             $rinci->total_biaya = $request->total_biaya;

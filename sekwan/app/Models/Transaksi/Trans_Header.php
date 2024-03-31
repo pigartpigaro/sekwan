@@ -22,10 +22,10 @@ class Trans_Header extends Model
         return $this->belongsTo(Kepmen050::class,'kepmen050', 'id');
     }
     public function provinsi(){
-        return $this->belongsTo(Provinsi::class,'provinsi', 'name');
+        return $this->belongsTo(Provinsi::class,'provinsi', 'id');
     }
     public function kota(){
-        return $this->belongsTo(Kota_Kab::class,'kota', 'name');
+        return $this->belongsTo(Kota_Kab::class,'kota', 'id');
     }
     public function rinci(){
         return $this->hasMany(Trans_rinci::class, 'header', 'id');
