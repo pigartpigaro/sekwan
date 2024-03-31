@@ -58,17 +58,47 @@ class Transaksi_PerdinController extends Controller
     {
         $post = new Trans_Header();
         $post->no_transaksi = self::buatnomor();
-        // $post->tanggal = self::buattanggal();
         $post->tanggal = $request->date('Y/m/d');
         $post->lamaperdin = $request->lamaperdin;
         $post->judul = $request->judul;
-        $post->provinsi = $request->provinsi;
-        $post->kota = $request->kota;
+        $post->provinsi = $request->id_propinsi;
+        $post->kota = $request->id_kota;
         $post->rekening50 = $request->rekening50;
-        // $post->uraian50 = $request->uraian50;
         $post->save();
+        $id = $post->id;
 
-        return response()->json(['message' => 'Berhasil di Simpan', 'data' => $post], 200);
+
+        if($post->save()){
+            $rinci=Trans_Header::where('id','=', $id)->first();
+            $rinci = new Trans_rinci();
+            $rinci->id = $request->header;
+            $rinci->nik = $request->nik;
+            $rinci->nama = $request->nama;
+            $rinci->jabatan = $request->jabatan;
+            $rinci->golongan = $request->golongan;
+            $rinci->tingkatan = $request->tingkatan;
+            $rinci->jenis_biaya = $request->id_jenistransaksi;
+            $rinci->uangharian_id = $request->uangharian_id;
+            $rinci->penginapan_id = $request->penginapan_id;
+            $rinci->transportasi_id = $request->transportasi_id;
+            $rinci->jenis_kendaraan = $request->id_jeniskendaraan;
+            $rinci->pesawat_id = $request->id_tujuanpesawat;
+            $rinci->kelas_pesawat = $request->kelas;
+            $rinci->taksi_id = $request->taksi_id;
+            $rinci->provinsi_id = $request->provinsi_id;
+            $rinci->nama_provinsi = $request->nama_provinsi;
+            $rinci->kota_id = $request->kota_id;
+            $rinci->biaya = $request->biaya;
+            $rinci->berapa_kali = $request->kuantitas;
+            $rinci->total_biaya = $request->total_biaya;
+            $post->rinci()->save($rinci);
+
+            return response()->json(['message' => 'Berhasil di Simpan', 'header' => $post, 'rinci' => $rinci ], 200);
+        }else{
+            return response()->json(['message' => 'Gagal di Simpan', 'data' => $post], 500);
+        }
+        // return response()->json(['message' => 'Berhasil di Simpan', 'data' => $post], 200);
+
     }
 
     public function storerinci(Request $request)
