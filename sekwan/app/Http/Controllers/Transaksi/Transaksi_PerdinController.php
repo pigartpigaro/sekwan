@@ -14,6 +14,7 @@ use App\Models\Transaksi\Trans_Header;
 use App\Models\Transaksi\Trans_rinci;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Transaksi_PerdinController extends Controller
 {
@@ -40,58 +41,84 @@ class Transaksi_PerdinController extends Controller
     {
 
         $perdin = Trans_Header::latest('id')
-        ->with(['kepmen50','provinsi','kota','rinci'=>function($rinci){
-            $rinci->with(['uangharian'=>function($uh){
-                $uh->with(['tingkatan']);
-            },'penginapan'=>function($inap){
-                $inap->with(['provinsi','golongan']);
-            },'transportasi'=>function($trans){
-                $trans->with(['provinsi','kota']);
-            },'pesawat','taksi'=>function($taksi){
-                $taksi->with(['provinsi']);
-            },'dewan']);
-        }])
+        ->with(['kepmen50','provinsi','kota','rinci'])
+        ->when(request('q'), function ($query) {
+            $query->where('no_transaksi', 'LIKE', '%' . request('q') . '%')
+            ->orWhere('tanggal', 'LIKE', '%' . request('q') . '%')
+            ->orWhere('judul', 'LIKE', '%' . request('q') . '%')
+            ->orWhere('lamaperdin', '%' . request('q') . '%')
+            ;
+        })
+        // ->when(request('uraian'), function ($query) {
+        //     $query->where('rekening50', 'LIKE', '%' . request('q') . '%');
+
+
+        // })
         ->paginate(request('per_page'));
         return new JsonResponse($perdin);
     }
     public function storeheader(Request $request)
     {
-        $post = new Trans_Header();
-        $post->no_transaksi = self::buatnomor();
-        $post->tanggal = $request->tanggal;
-        $post->lamaperdin = $request->lamaperdin;
-        $post->judul = $request->judul;
-        $post->provinsi = $request->id_propinsi;
-        $post->kota = $request->id_kota;
-        $post->rekening50 = $request->koderekekning;
-        $post->save();
-        $id = $post->id;
 
+        if($request->id === '' || $request->id === null){
+            $post = new Trans_Header();
+            $post->no_transaksi = self::buatnomor();
+            $post->tanggal = $request->tanggal;
+            $post->lamaperdin = $request->lamaperdin;
+            $post->judul = $request->judul;
+            $post->provinsi = $request->id_propinsi;
+            $post->kota = $request->id_kota;
+            $post->rekening50 = $request->koderekekning;
+            $post->save();
+            $id = $post->id;
 
-        if($post->save()){
-            $rinci=Trans_Header::where('id','=', $id)->first();
-            $rinci = new Trans_rinci();
-            $rinci->id = $request->header;
-            $rinci->nik = $request->nik;
-            $rinci->jabatan = $request->jabatan;
-            $rinci->golongan = $request->golongan;
-            $rinci->tingkatan = $request->tingkatan;
-            $rinci->jenis_biaya = $request->id_jenistransaksi;
-            $rinci->jnskendaraan_id = $request->id_jeniskendaraan;
-            $rinci->tujuan_pesawat_id = $request->id_tujuanpesawat;
-            $rinci->kelas_pesawat = $request->kelas;
-            $rinci->biaya = $request->biaya;
-            $rinci->berapa_kali = $request->kuantitas;
-            $rinci->total_biaya = $request->total_biaya;
-            $post->rinci()->save($rinci);
+            if($post->save()){
+                $rinci=Trans_Header::where('id','=', $id)->first();
+                $rinci = new Trans_rinci();
+                $rinci->id = $request->header;
+                $rinci->nik = $request->nik;
+                $rinci->jabatan = $request->jabatan;
+                $rinci->golongan = $request->golongan;
+                $rinci->tingkatan = $request->tingkatan;
+                $rinci->jenis_biaya = $request->id_jenistransaksi;
+                $rinci->jnskendaraan_id = $request->id_jeniskendaraan;
+                $rinci->tujuan_pesawat_id = $request->id_tujuanpesawat;
+                $rinci->kelas_pesawat = $request->kelas;
+                $rinci->biaya = $request->biaya;
+                $rinci->berapa_kali = $request->kuantitas;
+                $rinci->total_biaya = $request->total_biaya;
+                $post->rinci()->save($rinci);
 
-            return response()->json(['message' => 'Berhasil di Simpan', 'header' => $post, 'rinci' => $rinci ], 200);
-        }else{
-            return response()->json(['message' => 'Gagal di Simpan', 'data' => $post], 500);
+                $tampil= Trans_rinci::where($id)
+                    ->with(['dewan']);
+
+                return response()->json(['message' => 'Berhasil di Simpan', 'header' => $post, 'rinci' => $tampil ], 200);
+            }else{
+                return response()->json(['message' => 'Gagal di Simpan', 'data' => $post], 500);
+            }
+            // return response()->json(['message' => 'Berhasil di Simpan', 'data' => $post], 200);
+            }else{
+                $header=Trans_Header::where('id','=', $request->id)->first();
+                $rinci = new Trans_rinci();
+                $rinci->header = $request->id;
+                $rinci->nik = $request->nik;
+                $rinci->jabatan = $request->jabatan;
+                $rinci->golongan = $request->golongan;
+                $rinci->tingkatan = $request->tingkatan;
+                $rinci->jenis_biaya = $request->id_jenistransaksi;
+                $rinci->jnskendaraan_id = $request->id_jeniskendaraan;
+                $rinci->tujuan_pesawat_id = $request->id_tujuanpesawat;
+                $rinci->kelas_pesawat = $request->kelas;
+                $rinci->biaya = $request->biaya;
+                $rinci->berapa_kali = $request->kuantitas;
+                $rinci->total_biaya = $request->total_biaya;
+                $rinci->save();
+
+                return response()->json(['message' => 'Berhasil di Simpan', 'rinci' => $rinci, 'header' => $header ],200);
+
         }
-        // return response()->json(['message' => 'Berhasil di Simpan', 'data' => $post], 200);
-
     }
+
 
     public function storerinci(Request $request)
     {
