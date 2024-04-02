@@ -48,7 +48,7 @@ class Transaksi_PerdinController extends Controller
                     'berapa_kali','total_biaya')
         ->with(['dewan'=>function($dewan){
             $dewan->with(['jabatan','golongan', 'tingkatan', 'komisi','flag_pegawai']);
-        },'jenisbiaya','uangharian','penginapan','kendaraan','pesawat'])
+        },'jenisbiaya'])
 
         ->get();
         return new JsonResponse($perdin);
@@ -118,19 +118,19 @@ class Transaksi_PerdinController extends Controller
 
     public function hapusperdin(Request $request)
     {
-        $cari = Trans_rinci::find($request->id);
-        if (!$cari) {
-            return new JsonResponse(['message' => 'Maaf Data Tidak Ditemukan'], 500);
+        $rinci = Trans_rinci::select('header')->where('id', $request->id);
+        if (!$rinci) {
+            return new JsonResponse(['message' => 'Maaf Data Tidak Ditemukan'], 501);
         }
-        $hapus = $cari->delete();
+        $hapus = $rinci->delete();
+
         if (!$hapus) {
-            return new JsonResponse(['message' => 'Gagal Dihapus'], 501);
+            return new JsonResponse(['message' => 'gagal dihapus'], 500);
         }
 
-        // Trans_Header::where('id', $request->id)->delete();
-        Trans_rinci::where('id', $request->header)->delete();
-        return new JsonResponse(['message' => 'berhasil dihapus'], 200);
+        return new JsonResponse(['message' => 'berhasil dihapus', 'header' => $rinci], 200);
     }
+
 
     public static function buatnomor(){
         $huruf = ('SPM-PERDIN');
