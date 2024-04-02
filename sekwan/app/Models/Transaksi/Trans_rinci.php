@@ -40,15 +40,21 @@ class Trans_rinci extends Model
         return $this->hasMany(Dewan::class, 'nik', 'nik');
     }
     public function golongan (){
-        return $this->belongsTo(Golongan::class, 'golongan', 'id');
+        return $this->hasMany(Golongan::class, 'id', 'golongan');
     }
     public function tingkatan (){
-        return $this->belongsTo(Golongan::class, 'tingkatan', 'id');
+        return $this->hasMany(Golongan::class, 'id', 'tingkatan');
     }
     public function jenisbiaya (){
-        return $this->belongsTo(JenisBiaya::class, 'jenis_biaya', 'id');
+        return $this->hasMany(JenisBiaya::class, 'id', 'jenis_biaya');
     }
     public function kendaraan (){
-        return $this->belongsTo(Kendaraan::class, 'jnskendaraan_id', 'id');
+        return $this->hasMany(Kendaraan::class, 'id', 'jnskendaraan_id');
+    }
+    public function uangharian (){
+        return $this->hasMany(UH_PerdinLuarKota::class, 'biaya', 'biaya');
+    }
+    public function penginapan (){
+        return $this->hasMany(Penginapan::class, 'biaya', 'biaya');
     }
 }

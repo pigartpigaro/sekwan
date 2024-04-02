@@ -18,35 +18,15 @@ use Illuminate\Support\Facades\DB;
 
 class Transaksi_PerdinController extends Controller
 {
-    // public function header(){
-    //     $perdin = Trans_Header::where('id', '=', request()->id)->latest('id')
-    //     ->with(['kepmen50','provinsi'=>function($prov){
-    //         $prov->with(['kota','uangharian'=>function($uh){
-    //             $uh->with(['tingkatan']);
-    //         },'penginapan'=>function($inap){
-    //             $inap->with(['golongan']);
-    //         }])->select('id');
-    //     }])
-
-    //     // $perdin = Trans_Header::where('id', '=', request()->id)->latest('id')
-    //     // ->with(['kepmen50','provinsi'=>function($prov){
-    //     //     $prov->with(['kota'])->select('id');
-    //     // },'rinci'=>function($rinci){
-    //     //     $rinci->with(['uangharian','penginapan','dewan'])->select('id');
-    //     // }])
-    //     ->paginate(request('per_page'));
-    //     return new JsonResponse($perdin);
-    // }
     public function index()
     {
-
         $perdin = Trans_Header::latest('id')
         ->with(['kepmen50','provinsi','kota','rinci'])
         ->when(request('q'), function ($query) {
             $query->where('no_transaksi', 'LIKE', '%' . request('q') . '%')
             ->orWhere('tanggal', 'LIKE', '%' . request('q') . '%')
             ->orWhere('judul', 'LIKE', '%' . request('q') . '%')
-            ->orWhere('lamaperdin', '%' . request('q') . '%')
+            ->orWhere('lamaperdin','LIKE', '%' . request('q') . '%')
             ;
         })
         // ->when(request('uraian'), function ($query) {
@@ -54,6 +34,17 @@ class Transaksi_PerdinController extends Controller
 
 
         // })
+        ->paginate(request('per_page'));
+        return new JsonResponse($perdin);
+    }
+    public function rinci()
+    {
+
+        $perdin = Trans_rinci::select('id','nik','golongan','tingkatan','jenis_biaya','jnskendaraan_id','tujuan_pesawat_id','kelas_pesawat','biaya','berapa_kali','total_biaya')
+        ->with(['dewan'=>function($dewan){
+            $dewan->with(['golongan', 'tingkatan', 'komisi','flag_pegawai']);
+        },'jenisbiaya','uangharian','penginapan','kendaraan','pesawat'])
+
         ->paginate(request('per_page'));
         return new JsonResponse($perdin);
     }
@@ -89,10 +80,11 @@ class Transaksi_PerdinController extends Controller
                 $rinci->total_biaya = $request->total_biaya;
                 $post->rinci()->save($rinci);
 
-                $tampil= Trans_rinci::where($id)
-                    ->with(['dewan']);
+                // $tampil= Trans_rinci::where('id', '=', $id)
+                //     ->with(['dewan','golongan', 'tingkatan' ,'jenisbiaya' ])
+                //     ->get();
 
-                return response()->json(['message' => 'Berhasil di Simpan', 'header' => $post, 'rinci' => $tampil ], 200);
+                return response()->json(['message' => 'Berhasil di Simpan', 'header' => $post, 'rinci' => $rinci ], 200);
             }else{
                 return response()->json(['message' => 'Gagal di Simpan', 'data' => $post], 500);
             }

@@ -109,6 +109,6 @@ Route::group(['middleware' => ['api']], function() {
     // Transaksi
     Route::get('/index', [Transaksi_PerdinController::class, 'index']);
     Route::post('/store', [Transaksi_PerdinController::class, 'storeheader']);
-    Route::post('/storerinci', [Transaksi_PerdinController::class, 'storerinci']);
+    Route::get('/rinci', [Transaksi_PerdinController::class, 'rinci']);
 });
 
