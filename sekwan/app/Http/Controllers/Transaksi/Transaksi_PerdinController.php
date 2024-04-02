@@ -39,18 +39,22 @@ class Transaksi_PerdinController extends Controller
     }
     public function rinci()
     {
-
-        $perdin = Trans_rinci::select('id','nik','golongan','tingkatan','jenis_biaya','jnskendaraan_id','tujuan_pesawat_id','kelas_pesawat','biaya','berapa_kali','total_biaya')
+        $perdin = Trans_rinci::where('header', request('id'))
+        ->select('id','header',
+                    'nik','golongan',
+                    'tingkatan','jenis_biaya',
+                    'jnskendaraan_id','tujuan_pesawat_id',
+                    'kelas_pesawat','biaya',
+                    'berapa_kali','total_biaya')
         ->with(['dewan'=>function($dewan){
-            $dewan->with(['golongan', 'tingkatan', 'komisi','flag_pegawai']);
+            $dewan->with(['jabatan','golongan', 'tingkatan', 'komisi','flag_pegawai']);
         },'jenisbiaya','uangharian','penginapan','kendaraan','pesawat'])
 
-        ->paginate(request('per_page'));
+        ->get();
         return new JsonResponse($perdin);
     }
     public function storeheader(Request $request)
     {
-
         if($request->id === '' || $request->id === null){
             $post = new Trans_Header();
             $post->no_transaksi = self::buatnomor();
