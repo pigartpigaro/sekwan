@@ -116,14 +116,20 @@ class Transaksi_PerdinController extends Controller
     }
 
 
-    public function storerinci(Request $request)
+    public function hapusperdin(Request $request)
     {
+        $cari = Trans_rinci::find($request->id);
+        if (!$cari) {
+            return new JsonResponse(['message' => 'Maaf Data Tidak Ditemukan'], 500);
+        }
+        $hapus = $cari->delete();
+        if (!$hapus) {
+            return new JsonResponse(['message' => 'Gagal Dihapus'], 501);
+        }
 
-        $post = new Trans_rinci();
-        $post->fill($request->all());
-        $post->save();
-
-        return response()->json(['message' => 'Berhasil di Simpan', 'data' => $post], 200);
+        // Trans_Header::where('id', $request->id)->delete();
+        Trans_rinci::where('id', $request->header)->delete();
+        return new JsonResponse(['message' => 'berhasil dihapus'], 200);
     }
 
     public static function buatnomor(){
