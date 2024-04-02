@@ -28,12 +28,12 @@ class Transaksi_PerdinController extends Controller
             ->orWhere('judul', 'LIKE', '%' . request('q') . '%')
             ->orWhere('lamaperdin','LIKE', '%' . request('q') . '%')
             ;
+
+        })->when(request('q'), function ($query) {
+            $query->where('provinsi', 'LIKE', '%' . request('q') . '%');
+        })->when(request('q'), function ($query) {
+            $query->where('kota', 'LIKE', '%' . request('q') . '%');
         })
-        // ->when(request('uraian'), function ($query) {
-        //     $query->where('rekening50', 'LIKE', '%' . request('q') . '%');
-
-
-        // })
         ->paginate(request('per_page'));
         return new JsonResponse($perdin);
     }
