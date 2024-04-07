@@ -37,9 +37,25 @@ class Transaksi_PerdinController extends Controller
         ->paginate(request('per_page'));
         return new JsonResponse($perdin);
     }
-    public function rinci()
+    public function rinciall()
     {
         $perdin = Trans_rinci::where('header', request('id'))
+        ->select('id','header',
+                    'nik','golongan',
+                    'tingkatan','jenis_biaya',
+                    'jnskendaraan_id','tujuan_pesawat_id',
+                    'kelas_pesawat','biaya',
+                    'berapa_kali','total_biaya')
+        ->with(['dewan'=>function($dewan){
+            $dewan->with(['jabatan','golongan', 'tingkatan', 'komisi','flag_pegawai']);
+        },'jenisbiaya'])
+
+        ->get();
+        return new JsonResponse($perdin);
+    }
+    public function rinci()
+    {
+        $perdin = Trans_rinci::where('header', request('id'))->where('jenis_biaya',request('jb'))
         ->select('id','header',
                     'nik','golongan',
                     'tingkatan','jenis_biaya',
