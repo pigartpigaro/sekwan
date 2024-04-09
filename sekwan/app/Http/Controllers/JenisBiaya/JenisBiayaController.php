@@ -58,23 +58,8 @@ class JenisBiayaController extends Controller
         //     ->get();
 
         // }
-        if(request('kelas') === 'bisnis'){
-                    $data=Pesawat::select('bisnis')
-                    ->where(function ($tj) use ($tujuan) {
-                        if($tujuan !== null){
-                            $tj->where('id', $tujuan);
-                        }
-                    })
-                    ->orderBy('tujuan', 'desc')
-                    ->get();
-        }
-        elseif(request('kelas') === 'ekonomi'){
-            $data=Pesawat::select('ekonomi')
-            ->where(function ($tj) use ($tujuan) {
-                if($tujuan !== null){
-                    $tj->where('id', $tujuan);
-                }
-            })
+        if(request('kelas') === 'Bisnis'){
+            $data=Pesawat::where('id',$tujuan)
             ->orderBy('tujuan', 'desc')
             ->get();
         }
