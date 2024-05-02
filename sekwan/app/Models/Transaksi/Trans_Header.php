@@ -19,7 +19,7 @@ class Trans_Header extends Model
     protected $table = 'transaksi_headers';
     protected $timestamp = false;
     public function kepmen50(){
-        return $this->belongsTo(Kepmen050::class,'kepmen050', 'id');
+        return $this->hasOne(Kepmen050::class, 'id', 'rekening50');
     }
     public function provinsi(){
         return $this->belongsTo(Provinsi::class,'provinsi', 'id');
