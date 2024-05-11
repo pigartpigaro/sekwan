@@ -10,6 +10,7 @@ use App\Models\JenisBiaya\Pesawat;
 use App\Models\JenisBiaya\Taksi;
 use App\Models\JenisBiaya\UH_PerdinLuarKota;
 use App\Models\Master\Kendaraan;
+use App\Models\Master\Oneway;
 use Illuminate\Http\JsonResponse;
 
 class JenisBiayaController extends Controller
@@ -85,5 +86,12 @@ class JenisBiayaController extends Controller
     public function kendaraan(){
         $data=Kendaraan::get();
         return response()->json($data);
+    }
+    public function oneway(){
+        $data=Oneway::first()
+        ->where('provinsi_id', request('id_propinsi'))
+        ->where('kota_kabs_id', request('kota'))
+        ->get();
+        return response()->json(['oneway' => $data]);
     }
 }
