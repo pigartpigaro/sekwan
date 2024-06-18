@@ -79,6 +79,8 @@ class Transaksi_PerdinController extends Controller
             $post->judul = $request->judul;
             $post->provinsi = $request->id_propinsi;
             $post->kota = $request->id_kota;
+            $post->provinsi2 = $request->id_propinsi;
+            $post->kota2 = $request->id_kota;
             $post->komisi = $request->komisi;
             $post->rekening50 = '5.1.02.04.01.0001';
             $post->uraian50 = 'Belanja Perjalanan Dinas Biasa';
