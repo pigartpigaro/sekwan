@@ -88,7 +88,6 @@ class Transaksi_PerdinController extends Controller
             $id = $post->id;
 
             if($post->save()){
-                $flag_pgw=Dewan::where('id_flag_pegawai', '1');
                 $rinci=Trans_Header::where('id','=', $id)->first();
                 $rinci = new Trans_rinci();
                 $rinci->id = $request->header;
