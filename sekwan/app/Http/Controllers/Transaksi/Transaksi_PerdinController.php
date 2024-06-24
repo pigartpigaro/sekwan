@@ -88,11 +88,18 @@ class Transaksi_PerdinController extends Controller
             $id = $post->id;
 
             if($post->save()){
+                $flag_pgw=Dewan::where('id_flag_pegawai', '1');
                 $rinci=Trans_Header::where('id','=', $id)->first();
                 $rinci = new Trans_rinci();
                 $rinci->id = $request->header;
                 $rinci->nik = $request->nik;
                 $rinci->jabatan = $request->jabatan;
+                if('jabatan' !== null){
+                    $rinci->biaya_representasi = 'representasi';
+                    $rinci->biaya = 250000;
+                    $rinci->berapa_kali = $request->kuantitas;
+                    $rinci->total_biaya = $request->total_biaya;
+                }
                 $rinci->golongan = $request->golongan;
                 $rinci->tingkatan = $request->tingkatan;
                 $rinci->jenis_biaya = $request->id_jenistransaksi;
@@ -119,6 +126,12 @@ class Transaksi_PerdinController extends Controller
                 $rinci->header = $request->id;
                 $rinci->nik = $request->nik;
                 $rinci->jabatan = $request->jabatan;
+                if('jabatan' !== null){
+                    $rinci->biaya_representasi = 'representasi';
+                    $rinci->biaya = 250000;
+                    $rinci->berapa_kali = $request->kuantitas;
+                    $rinci->total_biaya = $request->total_biaya;
+                }
                 $rinci->golongan = $request->golongan;
                 $rinci->tingkatan = $request->tingkatan;
                 $rinci->jenis_biaya = $request->id_jenistransaksi;
