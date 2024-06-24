@@ -80,14 +80,22 @@ class DewanController extends Controller
         // if(!$komisi){
         //     return new JsonResponse(['message' => 'data komisi tidak ditemukan', 'data' => $pegawai], 501);
         // }
+        if($request->id_flag_pegawai === '1')
+        {
+            $golongan_id = '2';
+            $tingkatan_id = '1';
+        }else{
+            $golongan_id = $request->golongan_id;
+            $tingkatan_id = $request->tingkatan_id;
+        }
         $data = Dewan::create([
             'nama'         => $request->nama,
             'nik'          => $request->nik,
             'jns_kelamin'  => $request->jns_kelamin,
             'alamat'       => $request->alamat,
             'id_jabatan'   => $request->id_jabatan,
-            'golongan_id'   => $request->golongan_id,
-            'tingkatan_id'   => $request->tingkatan_id,
+            'golongan_id'   => $golongan_id,
+            'tingkatan_id'   => $tingkatan_id,
             'id_komisi'    => $request->id_komisi,
             'id_flag_pegawai' => $request->id_flag_pegawai,
 
@@ -102,14 +110,23 @@ class DewanController extends Controller
             return response()->json('NotValid', 500);
         }
 
+        if($request->id_flag_pegawai === '1')
+        {
+            $golongan_id = '2';
+            $tingkatan_id = '1';
+        }else{
+            $golongan_id = $request->golongan_id;
+            $tingkatan_id = $request->tingkatan_id;
+        }
+
         $data->update([
             'nama'        => $request->nama,
             'nik'         => $request->nik,
             'jns_kelamin' => $request->jns_kelamin,
             'alamat'      => $request->alamat,
             'id_jabatan'  => $request->id_jabatan,
-            'golongan_id'   => $request->golongan_id,
-            'tingkatan_id'   => $request->tingkatan_id,
+            'golongan_id'   => $golongan_id,
+            'tingkatan_id'   => $tingkatan_id,
             'id_komisi'   => $request->id_komisi,
             'id_flag_pegawai' => $request->id_flag_pegawai,
 
