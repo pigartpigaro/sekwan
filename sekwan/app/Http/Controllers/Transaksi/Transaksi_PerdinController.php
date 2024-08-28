@@ -81,6 +81,7 @@ class Transaksi_PerdinController extends Controller
             $post->kota = $request->id_kota;
             $post->provinsi2 = $request->id_propinsi;
             $post->kota2 = $request->id_kota;
+            $post->instansi_tujuan = $request->instansi_tujuan;
             $post->komisi = $request->komisi;
             $post->rekening50 = '5.1.02.04.01.0001';
             $post->uraian50 = 'Belanja Perjalanan Dinas Biasa';
@@ -92,6 +93,7 @@ class Transaksi_PerdinController extends Controller
                 $rinci = new Trans_rinci();
                 $rinci->id = $request->header;
                 $rinci->nik = $request->nik;
+                $rinci->nama = $request->nama;
                 $rinci->jabatan = $request->jabatan;
                 if('jabatan' !== null){
                     $rinci->biaya_representasi = 'representasi';
@@ -108,6 +110,12 @@ class Transaksi_PerdinController extends Controller
                 $rinci->biaya = $request->biaya;
                 $rinci->berapa_kali = $request->kuantitas;
                 $rinci->total_biaya = $request->total_biaya;
+                $rinci->tgl_checkin = $request->tgl_checkin;
+                $rinci->tgl_checkout = $request->tgl_checkout;
+                $rinci->nama_penginapan = $request->nama_penginapan;
+                $rinci->no_kamar = $request->no_kamar;
+                $rinci->penyedia_transportasi = $request->penyedia_transportasi;
+                $rinci->no_tiket = $request->no_tiket;
                 $post->rinci()->save($rinci);
 
                 // $tampil= Trans_rinci::where('id', '=', $id)
@@ -124,6 +132,7 @@ class Transaksi_PerdinController extends Controller
                 $rinci = new Trans_rinci();
                 $rinci->header = $request->id;
                 $rinci->nik = $request->nik;
+                $rinci->nama = $request->nama;
                 $rinci->jabatan = $request->jabatan;
                 if('jabatan' !== null){
                     $rinci->biaya_representasi = 'representasi';
@@ -140,6 +149,12 @@ class Transaksi_PerdinController extends Controller
                 $rinci->biaya = $request->biaya;
                 $rinci->berapa_kali = $request->kuantitas;
                 $rinci->total_biaya = $request->total_biaya;
+                $rinci->tgl_checkin = $request->tgl_checkin;
+                $rinci->tgl_checkout = $request->tgl_checkout;
+                $rinci->nama_penginapan = $request->nama_penginapan;
+                $rinci->no_kamar = $request->no_kamar;
+                $rinci->penyedia_transportasi = $request->penyedia_transportasi;
+                $rinci->no_tiket = $request->no_tiket;
                 $rinci->save();
 
                 return response()->json(['message' => 'Berhasil di Simpan', 'rinci' => $rinci, 'header' => $header ],200);
