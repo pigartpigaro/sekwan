@@ -15,6 +15,7 @@ use App\Http\Controllers\Pelaksana\DewanController;
 use App\Http\Controllers\Pelaksana\Flag_PegawaiController;
 use App\Http\Controllers\Pelaksana\JabatanController;
 use App\Http\Controllers\Pelaksana\KomisiController;
+use App\Http\Controllers\Transaksi\GetperdinbynospjController;
 use App\Http\Controllers\Transaksi\Transaksi_PerdinController;
 use App\Models\JenisBiaya\JenisBiaya;
 use Illuminate\Http\Request;
@@ -112,5 +113,7 @@ Route::group(['middleware' => ['api']], function() {
     Route::get('/rinci', [Transaksi_PerdinController::class, 'rinci']);
     Route::get('/rinciall', [Transaksi_PerdinController::class, 'rinciall']);
     Route::post('/hapusperdin', [Transaksi_PerdinController::class, 'hapusperdin']);
+    //---------------
+    Route::get('/getperdinbynospj', [GetperdinbynospjController::class, 'getperdinbynospj']);
 });
 
