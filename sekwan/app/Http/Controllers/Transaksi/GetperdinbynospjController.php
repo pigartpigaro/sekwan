@@ -13,7 +13,9 @@ class GetperdinbynospjController extends Controller
     {
         $data = Trans_Header::with(
             [
-                'rinci'
+                'rinci' => function($rinci){
+                    $rinci->with(['jenisbiaya']);
+                },
             ]
         )
         ->where('no_transaksi', request('nospj'))
