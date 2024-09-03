@@ -21,7 +21,7 @@ class Transaksi_PerdinController extends Controller
     public function index()
     {
         $perdin = Trans_Header::latest('id')
-        ->with(['kepmen50','provinsi','kota','rinci'])
+        ->with(['kepmen50','provinsi','kota','kota2','rinci','komisi'])
         ->when(request('q'), function ($query) {
             $query->where('no_transaksi', 'LIKE', '%' . request('q') . '%')
             ->orWhere('tanggal', 'LIKE', '%' . request('q') . '%')
@@ -72,9 +72,11 @@ class Transaksi_PerdinController extends Controller
     public function storeheader(Request $request)
     {
         if($request->id === '' || $request->id === null){
+            return 'saa';
             $post = new Trans_Header();
             $post->no_transaksi = self::buatnomor();
             $post->tanggal = $request->tanggal;
+            $post->tanggal_sampai = $request->tanggalsampai;
             $post->lamaperdin = $request->lamaperdin;
             $post->judul = $request->judul;
             $post->provinsi = $request->id_propinsi;
@@ -134,12 +136,12 @@ class Transaksi_PerdinController extends Controller
                 $rinci->nik = $request->nik;
                 $rinci->nama = $request->nama;
                 $rinci->jabatan = $request->jabatan;
-                if('jabatan' !== null){
-                    $rinci->biaya_representasi = 'representasi';
-                    $rinci->biaya = 250000;
-                    $rinci->berapa_kali = $request->kuantitas;
-                    $rinci->total_biaya = $request->total_biaya;
-                }
+                // if('jabatan' !== null){
+                //     $rinci->biaya_representasi = 'representasi';
+                //     $rinci->biaya = 250000;
+                //     $rinci->berapa_kali = $request->kuantitas;
+                //     $rinci->total_biaya = $request->total_biaya;
+                // }
                 $rinci->golongan = $request->golongan;
                 $rinci->tingkatan = $request->tingkatan;
                 $rinci->jenis_biaya = $request->id_jenistransaksi;
@@ -157,6 +159,31 @@ class Transaksi_PerdinController extends Controller
                 $rinci->no_tiket = $request->no_tiket;
                 $rinci->save();
 
+                if($request->id_jenistransaksi){
+                    $rincix = new Trans_rinci();
+                $rincix->header = $request->id;
+                $rincix->nik = $request->nik;
+                $rincix->nama = $request->nama;
+                $rincix->jabatan = $request->jabatan;
+                $rincix->golongan = $request->golongan;
+                $rincix->tingkatan = $request->tingkatan;
+                $rincix->jenis_biaya = 7;
+                $rincix->jnskendaraan_id = $request->id_jeniskendaraan;
+                $rincix->tujuan_pesawat_id = $request->id_tujuanpesawat;
+                $rincix->kelas_pesawat = $request->kelas;
+                $rincix->biaya = 250000;
+                $rincix->berapa_kali = $request->kuantitas;
+                $rincix->total_biaya = 250000 * $request->kuantitas;
+                $rincix->tgl_checkin = $request->tgl_checkin;
+                $rincix->tgl_checkout = $request->tgl_checkout;
+                $rincix->nama_penginapan = $request->nama_penginapan;
+                $rincix->no_kamar = $request->no_kamar;
+                $rincix->penyedia_transportasi = $request->penyedia_transportasi;
+                $rincix->no_tiket = $request->no_tiket;
+                $rincix->save();
+                }
+
+
                 return response()->json(['message' => 'Berhasil di Simpan', 'rinci' => $rinci, 'header' => $header ],200);
 
         }
@@ -165,17 +192,30 @@ class Transaksi_PerdinController extends Controller
 
     public function hapusperdin(Request $request)
     {
-        $rinci = Trans_rinci::select('header')->where('id', $request->id);
-        if (!$rinci) {
-            return new JsonResponse(['message' => 'Maaf Data Tidak Ditemukan'], 501);
-        }
-        $hapus = $rinci->delete();
+        if($request->jenisbiaya === "1"){
+            $xxx = Trans_rinci::select('header','nik')->where('id', $request->id)->get();
+            $rinci = Trans_rinci::where('header', $xxx[0]->header)->where('nik',$xxx[0]->nik)->where('jenis_biaya',1);
+            $rincix = Trans_rinci::where('header', $xxx[0]->header)->where('nik',$xxx[0]->nik)->where('jenis_biaya',7);
+            if (!$rinci) {
+                return new JsonResponse(['message' => 'Maaf Data Tidak Ditemukan'], 501);
+            }
+            $hapus = $rinci->delete();
+            $hapusx = $rincix->delete();
 
-        if (!$hapus) {
-            return new JsonResponse(['message' => 'gagal dihapus'], 500);
+            if (!$hapus) {
+                return new JsonResponse(['message' => 'gagal dihapus'], 500);
+            }
+
+            return new JsonResponse(['message' => 'berhasil dihapus', 'header' => $rinci], 200);
+        }else{
+            $rinci = Trans_rinci::select('header')->where('id', $request->id);
+            if (!$rinci) {
+                return new JsonResponse(['message' => 'Maaf Data Tidak Ditemukan'], 501);
+            }
+            $hapus = $rinci->delete();
+            return new JsonResponse(['message' => 'berhasil dihapus', 'header' => $rinci], 200);
         }
 
-        return new JsonResponse(['message' => 'berhasil dihapus', 'header' => $rinci], 200);
     }
 
 

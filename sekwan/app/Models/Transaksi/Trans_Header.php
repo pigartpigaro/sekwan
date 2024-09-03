@@ -9,6 +9,7 @@ use App\Models\Master\Kepmen050;
 use App\Models\Master\Kota_Kab;
 use App\Models\Master\Provinsi;
 use App\Models\Pelaksana\Dewan;
+use App\Models\Pelaksana\Komisi;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,8 +28,14 @@ class Trans_Header extends Model
     public function kota(){
         return $this->belongsTo(Kota_Kab::class,'kota', 'id');
     }
+    public function kota2(){
+        return $this->belongsTo(Kota_Kab::class,'kota2', 'id');
+    }
     public function rinci(){
         return $this->hasMany(Trans_rinci::class, 'header', 'id');
+    }
+    public function komisi(){
+        return $this->hasOne(Komisi::class,'id','komisi');
     }
 
     // public function jnsbiaya(){
