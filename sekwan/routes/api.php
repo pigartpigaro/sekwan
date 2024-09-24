@@ -8,6 +8,7 @@ use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Master\GolonganController;
 use App\Http\Controllers\Master\Kepmen050Controller;
 use App\Http\Controllers\Master\KotaKabController;
+use App\Http\Controllers\Master\PejabatController;
 use App\Http\Controllers\Master\ProvinsiController;
 use App\Http\Controllers\Master\SatuanController;
 use App\Http\Controllers\Master\TingkatanController;
@@ -84,6 +85,9 @@ Route::group(['middleware' => ['api']], function() {
     Route::post('/storejabatan', [JabatanController::class, 'store']);
     Route::post('/updatejabatan', [JabatanController::class, 'update']);
     Route::post('/deletejabatan', [JabatanController::class, 'delete']);
+
+    // route pejabat
+    Route::get('/pejabat', [PejabatController::class, 'pejabat']);
 
     // route Komisi
     Route::get('/indexkomisi', [KomisiController::class, 'index']);
