@@ -106,12 +106,6 @@ class Transaksi_PerdinController extends Controller
                 $rinci->nik = $request->nik;
                 $rinci->nama = $request->nama;
                 $rinci->jabatan = $request->jabatan;
-                // if('jabatan' !== null){
-                //     $rinci->biaya_representasi = 'representasi';
-                //     $rinci->biaya = 250000;
-                //     $rinci->berapa_kali = $request->kuantitas;
-                //     $rinci->total_biaya = $request->total_biaya;
-                // }
                 $rinci->golongan = $request->golongan;
                 $rinci->tingkatan = $request->tingkatan;
                 $rinci->jenis_biaya = $request->id_jenistransaksi;
@@ -128,6 +122,30 @@ class Transaksi_PerdinController extends Controller
                 $rinci->penyedia_transportasi = $request->penyedia_transportasi;
                 $rinci->no_tiket = $request->no_tiket;
                 $post->rinci()->save($rinci);
+
+                    if($request->id_jenistransaksi === 1 || $request->jabatan !== 1){
+                        $rincix = new Trans_rinci();
+                    $rincix->header = $request->id;
+                    $rincix->nik = $request->nik;
+                    $rincix->nama = $request->nama;
+                    $rincix->jabatan = $request->jabatan;
+                    $rincix->golongan = $request->golongan;
+                    $rincix->tingkatan = $request->tingkatan;
+                    $rincix->jenis_biaya = 7;
+                    $rincix->jnskendaraan_id = $request->id_jeniskendaraan;
+                    $rincix->tujuan_pesawat_id = $request->id_tujuanpesawat;
+                    $rincix->kelas_pesawat = $request->kelas;
+                    $rincix->biaya = 250000;
+                    $rincix->berapa_kali = $request->kuantitas;
+                    $rincix->total_biaya = 250000 * $request->kuantitas;
+                    $rincix->tgl_checkin = $request->tgl_checkin;
+                    $rincix->tgl_checkout = $request->tgl_checkout;
+                    $rincix->nama_penginapan = $request->nama_penginapan;
+                    $rincix->no_kamar = $request->no_kamar;
+                    $rincix->penyedia_transportasi = $request->penyedia_transportasi;
+                    $rincix->no_tiket = $request->no_tiket;
+                    $rincix->save();
+                    }
 
                 if($request->id_jenistransaksi === '1' || $request->id_jenistransaksi === 1){
                 $rincix = new Trans_rinci();
@@ -169,12 +187,7 @@ class Transaksi_PerdinController extends Controller
                 $rinci->nik = $request->nik;
                 $rinci->nama = $request->nama;
                 $rinci->jabatan = $request->jabatan;
-                // if('jabatan' !== null){
-                //     $rinci->biaya_representasi = 'representasi';
-                //     $rinci->biaya = 250000;
-                //     $rinci->berapa_kali = $request->kuantitas;
-                //     $rinci->total_biaya = $request->total_biaya;
-                // }
+
                 $rinci->golongan = $request->golongan;
                 $rinci->tingkatan = $request->tingkatan;
                 $rinci->jenis_biaya = $request->id_jenistransaksi;
